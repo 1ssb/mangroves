@@ -1,4 +1,4 @@
-## Code by 1ssb and Abhaas Goyal
+## Code by 1ssb and abhaasgoyal
 # MIT License
 # Req: CUDA-enabled GPU
 
