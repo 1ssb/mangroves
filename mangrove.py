@@ -1,12 +1,8 @@
 # Code by 1ssb
 # MIT License
 # Req: CUDA-enabled GPU
-
-import numpy as np
-import dask as da
-import torch
-
 # mangrove.py
+
 class Mangrove:
     # A novel data structure for networked indexation in evolving real-time systems
     def __init__(self):
