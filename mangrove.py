@@ -32,13 +32,24 @@ class Mangrove:
         else:
             super().__delattr__(name)
 
-    def config(self, **kwargs):
-        for key, value in kwargs.items():
-            if key in self.variables:
-                raise ValueError(f"Variable {key} is already locked and cannot be reused.")
-            else:
-                self.variables[key] = value
-                super().__setattr__(key, value)
+    def config(self, depth=None, types=None, name=None):
+        if depth is not None:
+            self.depth = depth
+        if types is not None:
+            self.types = types
+        if name is not None:
+            for item in name:
+                data_type, var_names = item.split(":")
+                data_type = data_type.strip()
+                var_names = var_names.split(",")
+                for var_name in var_names:
+                    var_name = var_name.strip()
+                    if var_name in self.variables:
+                        raise ValueError(f"Variable {var_name} is already locked and cannot be reused.")
+                    else:
+                        self.variables[var_name] = None
+                        super().__setattr__(var_name, None)
+
 
 
 
