@@ -11,9 +11,10 @@ class Mangrove:
     def __init__(self):
         self.variables = {}
         self.depths = {}
+        self.__class__ = "mangrove"
 
     def __setattr__(self, name, value):
-        if name in ["variables", "depths"]:
+        if name in ["variables", "depths", "__class__"]:
             super().__setattr__(name, value)
         elif name in self.variables:
             raise ValueError(f"Variable {name} is already locked and cannot be reused.")
@@ -56,8 +57,3 @@ class Mangrove:
                             self.variables[var_name] = None
                             super().__setattr__(var_name, None)
                             self.depths[depth]["names"].append(var_name)
-
-
-
-
-
