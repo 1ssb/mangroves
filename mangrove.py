@@ -31,3 +31,13 @@ class Mangrove:
         else:
             super().__delattr__(name)
 
+    def config(self, **kwargs):
+        for key, value in kwargs.items():
+            if key in self.variables:
+                raise ValueError(f"Variable {key} is already locked and cannot be reused.")
+            else:
+                self.variables[key] = value
+                super().__setattr__(key, value)
+
+
+
