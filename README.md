@@ -1,6 +1,6 @@
 # Mangrove
 
-### Phase 1: Create a data structure that can input multiple keys of several types which must have the same cardinality. (Complete)
+### Phase 1: Create a data structure that can input multiple keys of several types which must have the same cardinality to bundle. (Complete)
 
 ## Mangrove - A Custom Data Structure
 
