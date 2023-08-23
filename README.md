@@ -2,6 +2,8 @@
 
 ### Phase 1: Create a data structure that can input multiple keys of several types which must have the same cardinality to bundle. (Complete)
 
+#### Unit Testing: Incomplete
+
 ### Phase 2: DeepCopy to GPU memory and GPU operations return updated mangrove to the CPU. (In progress)
 
 ## Mangrove - A Custom Data Structure
