@@ -5,6 +5,7 @@
 import numpy as np
 import dask as da
 
+# mangrove.py
 class Mangrove:
     def __init__(self):
         self.variables = {}
@@ -18,8 +19,15 @@ class Mangrove:
             self.variables[name] = value
             super().__setattr__(name, value)
 
-mgv = Mangrove()
-mgv.var1 = 10
-print(mgv.var1) # 10
-mgv.var1 = 20 # ValueError: Variable var1 is already locked and cannot be reused.
+    def __getattr__(self, name):
+        if name in self.variables:
+            return self.variables[name]
+        else:
+            raise AttributeError(f"{name} not found in Mangrove instance.")
+
+    def __delattr__(self, name):
+        if name in self.variables:
+            raise ValueError(f"Variable {name} is locked and cannot be deleted.")
+        else:
+            super().__delattr__(name)
 
