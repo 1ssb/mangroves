@@ -1,9 +1,9 @@
 import mangrove as mgv
 
 x = mgv.Mangrove()
-x.config(var1=10, var2="hello", var3=[1, 2, 3], var4={"a": 1, "b": 2})
-print(x.var1) # 10
-print(x.var2) # hello
-print(x.var3) # [1, 2, 3]
-print(x.var4) # {'a': 1, 'b': 2}
-x.var1 = 20 # ValueError: Variable var1 is already locked and cannot be reused.
+x.config(depth=3, types=["tensor", "bool", "int", "str"], name=["tensor: tensor1, tensor2", "bool: bool1, bool2", "int: int1, int2", "str: str1, str2"])
+print(x.tensor1) # None
+print(x.bool1) # None
+print(x.int1) # None
+print(x.str1) # None
+x.tensor1 = 10 # ValueError: Variable tensor1 is already locked and cannot be reused.
