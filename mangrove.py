@@ -39,7 +39,7 @@ class Mangrove:
             if depth not in self.depths:
                 if depth > 1 and depth - 1 not in self.depths:
                     raise ValueError(f"Depth {depth - 1} must be configured before configuring depth {depth}.")
-                self.depths[depth] = {"types": [], "names": []}
+                self.depths[depth] = {"types": [], "names": {}}
             if types is not None:
                 self.depths[depth]["types"] = types
             if name is not None:
@@ -56,4 +56,13 @@ class Mangrove:
                         else:
                             self.variables[var_name] = None
                             super().__setattr__(var_name, None)
-                            self.depths[depth]["names"].append(var_name)
+                            if data_type not in self.depths[depth]["names"]:
+                                self.depths[depth]["names"][data_type] = []
+                            self.depths[depth]["names"][data_type].append(var_name)
+
+    def pop(self):
+        for depth, data in sorted(self.depths.items()):
+            print(f"Depth: {depth}: ", end="")
+            for data_type, var_names in data["names"].items():
+                print(f"[type: {data_type}: variable_names:{{{', '.join(var_names)}}}]; ", end="")
+            print()
