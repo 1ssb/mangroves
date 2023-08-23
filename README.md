@@ -38,38 +38,53 @@ Mangrove class provides the following functionalities:
 
 ### Computer Vision Applications:
 
-- Image Classification: Mangrove's dynamic configuration simplifies image classification setups, streamlining variable management for image data and labels.
+- **Image Classification:** Mangrove's dynamic configuration simplifies image classification setups, streamlining variable management for image data and labels.
 
-- Object Detection: Efficiently organize object detection datasets by leveraging Mangrove's variable depth and type configuration for bounding box coordinates and class labels.
+- **Object Detection:** Efficiently organize object detection datasets by leveraging Mangrove's variable depth and type configuration for bounding box coordinates and class labels.
 
-- Facial Recognition: Mangrove's ordered bundling aids in managing facial recognition datasets, making it easy to arrange face images and associated identities.
+- **Facial Recognition:** Mangrove's ordered bundling aids in managing facial recognition datasets, making it easy to arrange face images and associated identities.
 
-- Image Segmentation: Flexibly handle image segmentation tasks with Mangrove's variable configurations for input images and masks, accommodating pixel-level annotations.
+- **Image Segmentation:** Flexibly handle image segmentation tasks with Mangrove's variable configurations for input images and masks, accommodating pixel-level annotations.
 
-- Medical Imaging: Mangrove's versatile data management suits medical imaging tasks, supporting multi-modal data, annotations, and classifications across medical image formats.
+- **Medical Imaging:** Mangrove's versatile data management suits medical imaging tasks, supporting multi-modal data, annotations, and classifications across medical image formats.
 
-- Autonomous Vehicles: Simplify the organization of sensor data from autonomous vehicles with Mangrove's depth-based configuration, accommodating various data types like LiDAR, cameras, and radar.
+- **Autonomous Vehicles:** Simplify the organization of sensor data from autonomous vehicles with Mangrove's depth-based configuration, accommodating various data types like LiDAR, cameras, and radar.
 
 ### Natural Language Processing (NLP) Applications:
 
-- Sentiment Analysis: Utilize Mangrove's ordered bundling to efficiently manage sentiment analysis datasets, pairing text samples with sentiment labels for model training.
+- **Sentiment Analysis:** Utilize Mangrove's ordered bundling to efficiently manage sentiment analysis datasets, pairing text samples with sentiment labels for model training.
 
-- Text Summarization: Mangrove's dynamic configuration caters to text summarization tasks, efficiently managing source texts and their corresponding summaries.
+- **Text Summarization:** Mangrove's dynamic configuration caters to text summarization tasks, efficiently managing source texts and their corresponding summaries.
 
-- Question Answering: Effortlessly set up question answering tasks with Mangrove by configuring variables for passages, questions, and answers, ensuring dataset coherence.
+- **Question Answering:** Effortlessly set up question answering tasks with Mangrove by configuring variables for passages, questions, and answers, ensuring dataset coherence.
 
-- Language Translation: Leverage Mangrove's flexibility to configure multilingual translation datasets, maintaining alignment between source and target texts for translation models.
+- **Language Translation:** Leverage Mangrove's flexibility to configure multilingual translation datasets, maintaining alignment between source and target texts for translation models.
 
-- Named Entity Recognition: Harness Mangrove's data organization capabilities for labeled entity management, supporting named entity recognition tasks.
+- **Named Entity Recognition:** Harness Mangrove's data organization capabilities for labeled entity management, supporting named entity recognition tasks.
 
 ### Other AI Applications:
 
-- Healthcare Predictive Modeling: Mangrove's dynamic configuration and data management capabilities are valuable for healthcare predictive modeling, facilitating diverse patient data organization.
+- **Healthcare Predictive Modeling:** Mangrove's dynamic configuration and data management capabilities are valuable for healthcare predictive modeling, facilitating diverse patient data organization.
 
-- Financial Analysis: Utilize Mangrove for financial data handling, benefiting from ordered bundling and variable management in predictive analytics, fraud detection, and portfolio optimization.
+- **Financial Analysis:** Utilize Mangrove for financial data handling, benefiting from ordered bundling and variable management in predictive analytics, fraud detection, and portfolio optimization.
 
-- Recommendation Systems: Efficiently set up recommendation system experiments with Mangrove, organizing user-item interaction data and recommendation targets using its flexible configuration.
+- **Recommendation Systems:** Efficiently set up recommendation system experiments with Mangrove, organizing user-item interaction data and recommendation targets using its flexible configuration.
 
-- Gaming AI: Mangrove efficiently organizes game data for training AI agents, managing game states, actions, and rewards, facilitating reinforcement learning experiments.
+- **Gaming AI:** Mangrove efficiently organizes game data for training AI agents, managing game states, actions, and rewards, facilitating reinforcement learning experiments.
 
-- Energy Management: Effectively organize sensor data for energy consumption analysis using Mangrove's data management capabilities, optimizing energy usage in buildings and industrial setups.
+- **Energy Management:** Effectively organize sensor data for energy consumption analysis using Mangrove's data management capabilities, optimizing energy usage in buildings and industrial setups.
+
+### Econometrics and Time Series Data Management:
+
+- **Data Organization:** Leverage Mangrove's dynamic configuration to efficiently manage and organize econometrics and time series datasets.
+
+- **Variable Relationships:** Easily analyze relationships between variables with Mangrove's structured data setup, supporting regression analysis and correlation assessments.
+
+- **Time Series Handling:** Configure variables to represent different time periods for streamlined management and analysis of time series data.
+
+- **Forecasting and Modeling:** Utilize Mangrove's ordered bundling to set up forecasting experiments, bundling historical data, exogenous factors, and outcomes.
+
+- **Financial Data Management:** Efficiently manage financial time series data (e.g., stock prices, economic indicators) with Mangrove, aiding in portfolio optimization and risk assessment.
+
+- **Impact Analysis:** Structure scenarios and analyze the impact of economic events or policy changes using Mangrove's dynamic data management capabilities.
+
