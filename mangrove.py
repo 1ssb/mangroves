@@ -12,9 +12,10 @@ class Mangrove:
         self.variables = {}
         self.depths = {}
         self.__class__ = "mangrove"
+        self.data = {}
 
     def __setattr__(self, name, value):
-        if name in ["variables", "depths", "__class__"]:
+        if name in ["variables", "depths", "__class__", "data"]:
             super().__setattr__(name, value)
         elif name in self.variables:
             raise ValueError(f"Variable {name} is already locked and cannot be reused.")
@@ -60,9 +61,16 @@ class Mangrove:
                                 self.depths[depth]["names"][data_type] = []
                             self.depths[depth]["names"][data_type].append(var_name)
 
-    def pop(self):
-        for depth, data in sorted(self.depths.items()):
-            print(f"Depth: {depth}: ", end="")
-            for data_type, var_names in data["names"].items():
-                print(f"[type: {data_type}: variable_names:{{{', '.join(var_names)}}}]; ", end="")
-            print()
+    def pop(self, variable_name=None):
+        if variable_name is None:
+            for depth, data in sorted(self.depths.items()):
+                print(f"Depth: {depth}: ", end="")
+                for data_type, var_names in data["names"].items():
+                    print(f"[type: {data_type}: variable_names:{{{', '.join(var_names)}}}]; ", end="")
+                print()
+        else:
+            if variable_name in self.data:
+                print(self.data[variable_name])
+            else:
+                print(f"No data found for variable {variable_name}.")
+
