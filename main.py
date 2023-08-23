@@ -1,9 +1,9 @@
 # main.py
-from mangrove import Mangrove  # Import the Mangrove class from mangrove.py
+from mangrove import Mangrove as mgv  # Import the Mangrove class from mangrove.py
 
 # Detailed use case scenario
 def main():
-    x = Mangrove()
+    x = mgv()
 
     # Configure depth and data types
     x.config(depth=1, types=["tensor", "bool"], name=["tensor: tensor1, tensor2", "bool: bool1, bool2"])
