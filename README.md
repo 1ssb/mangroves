@@ -1,8 +1,8 @@
-# Mangrove
+# Mangrove Project
 
 ### Pending---Phase 2: DeepCopy to GPU memory and GPU operations return updated mangrove to the CPU. (In progress tensor.py)
 
-## Mangrove - A Custom Data Structure
+## Mangrove - A Custom High Dimensional High Density Liquid Data Structure for next gen AI
 
 Mangrove is a custom data structure that provides dynamic configuration and management of variables across multiple depths and data types. It offers flexible configuration, ordered bundling, memory address tracking, and more. Use cases available in main.py.
 
