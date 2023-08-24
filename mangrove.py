@@ -39,7 +39,7 @@ class Mangrove:
         if name in self.bindings:
             raise ValueError(f"Binding name {name} is already in use")
         # Use a list comprehension to create the binding
-        binding = [(var, value) for depth_str, type_str in order.items()
+        binding = [var for depth_str, type_str in order.items()
                    for var, value in self.data.items()
                    if int(depth_str) == self.levels[var] and isinstance(value, eval(type_str))]
         # Check the cardinality of the binding
