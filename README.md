@@ -8,27 +8,46 @@ Mangrove is a custom data structure that provides dynamic configuration and mana
 
 ## Functionality
 
-Mangrove class provides the following functionalities:
+### Attributes
 
-### Dynamic Configuration
+- `depths`: A dictionary that holds depth values as keys and corresponding allowed types as values.
+- `data`: A dictionary to store variable names as keys and their associated values.
+- `types`: A dictionary that maps variable names to their data types.
+- `levels`: A dictionary that associates variable names with their depths.
+- `bindings`: A dictionary to bind variable names to other objects.
 
-- `config(depth, types, name)`: Configure variables at specified depth levels with allowed data types.
+### Constructor
 
-### Variable Management
+The constructor `__init__` initializes the Mangrove object by creating empty dictionaries for depths, data, types, levels, and bindings.
 
-- `pop(variable_name)`: Display the ordered structure or access data for a specific variable.
+### Configuring Depths and Types
 
-### Bundling and Order
+The `config` method allows configuration of depths and associated types. It takes a depth and a list of types as arguments. If the given depth requires a preceding depth to be configured, it checks for its presence in the depths dictionary. If not, it raises a ValueError.
 
-- `bundle(cardinal, order)`: Configure bundling rules with required cardinality and order.
+### Adding Data
 
-### Memory Address Tracking
+The `add_data` method adds data to the Mangrove object. It requires a depth, type, variable name(s) `var`, and an optional value. It verifies that the provided depth and type are configured and then adds the variable names and associated values to the data dictionary, along with their types and depths.
 
-- `adrs()`: Get memory addresses of variables stored in the Mangrove instance.
+### Summary
 
-### Bundle Dictionary
+The `summary` method generates a summary of the data stored in the Mangrove object. It creates a dictionary where variable names are keys, and each entry includes the variable's type and depth.
 
-- `dict()`: Retrieve a dictionary containing bundling information.
+### Dynamic Attribute Access
+
+The methods `__getattr__` and `__setattr__` are used to dynamically access and set attributes of the Mangrove object. If the attribute is a variable name stored in data, `__getattr__` returns the associated value. If it's a variable name in bindings, the corresponding value is returned. If the attribute doesn't match any stored variables, an AttributeError is raised.
+
+### String Representation
+
+The `__repr__` method provides a string representation of the Mangrove object, showing its data dictionary.
+
+### Variable Listing
+
+The `var` method allows listing variable names based on specified depth and data type filters. If depth and/or data_type are provided, the method returns a list of variable names that match the given criteria.
+
+### Binding Variables
+
+The `bind` method binds variables together based on specified depths and data types. It calculates the maximum count of variables satisfying the conditions and then creates a matrix-like structure where rows represent variables of the same type and depth.
+
 
 ## Possible Applications
 
