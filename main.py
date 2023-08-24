@@ -13,13 +13,6 @@ def main():
     mangrove.add_data(depth=1, type=int, var=["x"], value=1)
     mangrove.add_data(depth=2, type=list, var=["y"], value=[1, 2])
     mangrove.add_data(depth=3, type=dict, var=["z"], value={"a": 1})
-    
-    
-    # Create a binding
-    mangrove.bind(name="bind1", cardinal=1, order={"1": "int", "2": "list", "3": "dict"})
-    
-    # Access the binding
-    print(mangrove.bind1) # [('x', 'y', 'z')]
 
     # Access and modify the data attributes
     print(mangrove.x) # 1
