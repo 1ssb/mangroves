@@ -46,7 +46,7 @@ The `var` method allows listing variable names based on specified depth and data
 
 ### Binding Variables
 
-The `bind` method binds variables together based on specified depths and data types. It calculates the maximum count of variables satisfying the conditions and then creates a matrix-like structure where rows represent variables of the same type and depth.
+The `bind` method binds variables together based on specified depths and data types. It calculates the maximum count of variables satisfying the conditions and then creates a matrix-like structure where rows represent variables of the same type and depth. A binder which is a list of list can be parsed for downstream applications.
 
 
 ## Possible Applications
