@@ -4,7 +4,7 @@
 
 ## Mangrove - A Custom Data Structure
 
-Mangrove is a custom data structure that provides dynamic configuration and management of variables across multiple depths and data types. It offers flexible configuration, ordered bundling, memory address tracking, and more.
+Mangrove is a custom data structure that provides dynamic configuration and management of variables across multiple depths and data types. It offers flexible configuration, ordered bundling, memory address tracking, and more. Use cases available in main.py.
 
 ## Functionality
 
