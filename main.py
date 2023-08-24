@@ -40,5 +40,19 @@ def main():
     mangrove_instance.g = 1
     print(mangrove_instance.g) # 1
 
+    m = Mangrove()
+    m.config(1, ["int", "str"])
+    m.config(2, ["float"])
+    m.add_data(1, "int", ["x", "y"], 0)
+    m.add_data(1, "str", ["name"], "John")
+    m.add_data(2, "float", ["z"], 0.0)
+    m.add_data(2, "float", ["q"], 3.0)
+    
+    depths = ["1", "2"]
+    data_types = ["int", "float"]
+    
+    result = m.bind(depths=depths, data_types=data_types)
+    print(result)
+
 if __name__ == "__main__":
     main()
