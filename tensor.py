@@ -20,3 +20,4 @@ m.add_data(depth=2, type=torch.Tensor, var=["f", "g", "h", "i", "j"], value=[tor
 
 print(m.f)
 ##### Now write code such that it can handle memory management and deep copies the variables in memory to GPU without making additional copies 
+## Check the bind method for the tensor functionalities
