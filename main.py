@@ -16,12 +16,11 @@ def main():
     
     
     # Create a binding
-    mangrove.bind(name="bind1", cardinal=1,
-                  order={"1": "int", "2": "list", "3": "dict"})
+    mangrove.bind(name="bind1", cardinal=1, order={"1": "int", "2": "list", "3": "dict"})
     
     # Access the binding
-    print(mangrove.bind1) # [('x', 1), ('y', [1, 2]), ('z', {'a': 1})]
-    
+    print(mangrove.bind1) # [('x', 'y', 'z')]
+
     # Access and modify the data attributes
     print(mangrove.x) # 1
     mangrove.x = 2
