@@ -1,4 +1,4 @@
-# code by abhaasgoyal
+# code by abhaasgoyal (Pending)
 # Req: CUDA enabled GPU
 
 from Mangrove import Mangrove as mgv
