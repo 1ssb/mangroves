@@ -13,8 +13,8 @@ Mangrove is a custom data structure that provides dynamic configuration and mana
 - `depths`: A dictionary that holds depth values as keys and corresponding allowed types as values.
 - `data`: A dictionary to store variable names as keys and their associated values.
 - `types`: A dictionary that maps variable names to their data types.
-- `levels`: A dictionary that associates variable names with their depths.
-- `bindings`: A dictionary to bind variable names to other objects.
+- `levels`: An internal dictionary that associates variable names with their depths.
+- `index`: A dictionary which stores all the variables stored in a certain depth for a particular data type.
 
 ### Constructor
 
@@ -22,7 +22,7 @@ The constructor `__init__` initializes the Mangrove object by creating empty dic
 
 ### Configuring Depths and Types
 
-The `config` method allows configuration of depths and associated types. It takes a depth and a list of types as arguments. If the given depth requires a preceding depth to be configured, it checks for its presence in the depths dictionary. If not, it raises a ValueError.
+The `config` method allows the configuration of depths and associated types. It takes depth and a list of types as arguments. If the given depth requires a preceding depth to be configured, it checks for its presence in the depths dictionary. If not, it raises a ValueError.
 
 ### Adding Data
 
@@ -44,9 +44,9 @@ The `__repr__` method provides a string representation of the Mangrove object, s
 
 The `var` method allows listing variable names based on specified depth and data type filters. If depth and/or data_type are provided, the method returns a list of variable names that match the given criteria.
 
-## Binding Variables
+### Indexing
 
-The `bind` method binds variables together based on specified depths and data types. It calculates the maximum count of variables satisfying the conditions and then creates a matrix-like structure where rows represent variables of the same type and depth. A binder which is a list of lists can be parsed for downstream applications and creates a natural indexing order to represent dimensionality.
+The `index` method binds variables together based on specified depths and data types as a dictionary. It can be parsed for downstream applications and creates a natural indexing order to represent dimensionality.
 
 
 ## Possible Applications
