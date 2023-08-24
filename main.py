@@ -2,36 +2,38 @@
 from mangrove import Mangrove  # Import the Mangrove class from mangrove.py
 
 def main():
-    # Create an instance of Mangrove
-    experiment_data = Mangrove()
-
-    # Configure depth and data types
-    experiment_data.config(
-        depth=1, 
-        types=["tensor", "bool"], 
-        name=["tensor: tensor1, tensor2", "bool: bool1, bool2"]
-    )
-    experiment_data.config(
-        depth=2, 
-        types=["int", "str"], 
-        name=["int: int1, int2", "str: str1, str2"]
-    )
-
-    # Print configured data structure
-    experiment_data.pop()
-
-    # Configure bundling and order
-    order = {"depth1": "tensor", "depth2": "tensor", "depth1": "int"}
-    experiment_data.bundle(cardinal="2", order=order)
-
-    # Access data using x.data.variable_name
-    print(experiment_data.data_tensor1_1)  # Access data using x.data.variable_name syntax
-
-    # Print bundle dictionary
-    print(experiment_data.dict())
-
-    # Print variable memory addresses
-    print(experiment_data.adrs())
+    mangrove = Mangrove()
+    
+    # Configure the allowed types for each depth
+    mangrove.config(depth=1, types=[int])
+    mangrove.config(depth=2, types=[list])
+    mangrove.config(depth=3, types=[dict])
+    
+    # Add data to the Mangrove instance
+    mangrove.add_data(depth=1, type=int, var=["x"], value=1)
+    mangrove.add_data(depth=2, type=list, var=["y"], value=[1, 2])
+    mangrove.add_data(depth=3, type=dict, var=["z"], value={"a": 1})
+    
+    
+    # Create a binding
+    mangrove.bind(name="bind1", cardinal=1,
+                  order={"1": "int", "2": "list", "3": "dict"})
+    
+    # Access the binding
+    print(mangrove.bind1) # [('x', 1), ('y', [1, 2]), ('z', {'a': 1})]
+    print(mangrove.x)
+    mangrove.x = 2
+    print(mangrove.x)
+    # Get a summary of the data stored in the tree
+    summary = mangrove.summary()
+    print(summary) # {'x': {'type': 'int', 'depth': 0}, 'y': {'type': 'list', 'depth': 1}, 'z': {'type': 'dict', 'depth': 2}}
+    
+    mangrove_instance = Mangrove()
+    mangrove_instance.config(depth=1, types=[int])
+    mangrove_instance.add_data(depth=1, type=int, var=["g"])
+    print(mangrove_instance.g) # None
+    mangrove_instance.g = 1
+    print(mangrove_instance.g) # 1
 
 if __name__ == "__main__":
     main()
