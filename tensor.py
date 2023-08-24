@@ -19,5 +19,14 @@ m.add_data(depth=1, type=torch.Tensor, var=["a", "b", "c", "d", "e"], value=[tor
 m.add_data(depth=2, type=torch.Tensor, var=["f", "g", "h", "i", "j"], value=[torch.rand(3, 3) for _ in range(5)])
 
 print(m.f)
-##### Now write code such that it can handle memory management and deep copies the variables in memory to GPU without making additional copies 
-## Check the bind method for the tensor functionalities
+
+## Checking the bind method for the tensor functionalities
+
+depths = ["1", "2"]
+data_types = ["int", "float"]
+    
+result = m.bind(depths=depths, data_types=data_types)
+print(result)
+
+##### @Abhaas: Please write code such that it can handle memory management and deep copies the variables in memory to GPU without making additional copies 
+

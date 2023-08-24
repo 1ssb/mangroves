@@ -33,19 +33,27 @@ def main():
     mangrove_instance.g = 1
     print(mangrove_instance.g) # 1
 
-    m = Mangrove()
-    m.config(1, ["int", "str"])
-    m.config(2, ["float"])
-    m.add_data(1, "int", ["x", "y"], 0)
-    m.add_data(1, "str", ["name"], "John")
-    m.add_data(2, "float", ["z"], 0.0)
-    m.add_data(2, "float", ["q"], 3.0)
-    
-    depths = ["1", "2"]
-    data_types = ["int", "float"]
-    
-    result = m.bind(depths=depths, data_types=data_types)
-    print(result)
+    # Create an instance of the Mangrove class
+    instance = Mangrove()
+
+    # Configure the allowed types for each depth
+    instance.config(depth=1, types=[int, str])
+    instance.config(depth=2, types=[int, str])
+
+    # Add multiple variables
+    instance.add_data(depth=1, type=int, var=["x", "y", "z"])
+    instance.add_data(depth=1, type=int, var=["a", "b", "c"])
+    instance.add_data(depth=2, type=str, var=["var"])
+
+    # Update the existing variables
+    instance.x = 10
+
+    # Print the variables for specified depth and data type
+    print("Variables at Depth 1 and int Data Type:")
+    print(instance.index(depth=1, data_type=int))
+
+    print("Variables at Depth 2 and str Data Type:")
+    print(instance.index(depth=2, data_type=str))
 
 if __name__ == "__main__":
     main()

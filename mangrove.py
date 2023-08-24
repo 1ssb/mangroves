@@ -1,15 +1,14 @@
 # Code by 1ssb
 
 class Mangrove:
-    __slots__ = ["depths", "data", "types", "levels", "bindings"]
+    __slots__ = ["depths", "data", "types", "levels"]
     
     def __init__(self):
         self.depths = {}
         self.data = {}
         self.types = {}
         self.levels = {}
-        self.bindings = {}
-    
+        
     def config(self, depth, types):
         if depth > 1 and (depth-1) not in self.depths:
             raise ValueError(f"Depth {depth-1} must be configured before depth {depth}")
@@ -33,26 +32,23 @@ class Mangrove:
                   for name, value in self.data.items()}
         return result
     
+    def __setattr__(self, name, value):
+        if name in ["depths", "data", "types", "levels"]:
+            object.__setattr__(self, name, value)
+        elif name in self.data:
+            if isinstance(value, self.types[name]):
+                self.data[name] = value
+            else:
+                raise TypeError(f"Value must be of type {self.types[name]}")
+        else:
+            raise AttributeError(f"No such attribute: {name}")
+
     def __getattr__(self, name):
         if name in self.data:
             return self.data[name]
-        elif name in self.bindings:
-            return self.bindings[name]
         else:
             raise AttributeError(f"No such attribute: {name}")
     
-    def __setattr__(self, name, value):
-     if name in ["depths", "data", "types", "levels", "bindings"]:
-        # Use object.__setattr__ instead of super().__setattr__
-        object.__setattr__(self, name, value)
-     elif name in self.data:
-        if isinstance(value, self.types[name]):
-            self.data[name] = value
-        else:
-            raise TypeError(f"Value must be of type {self.types[name]}")
-     else:
-        raise AttributeError(f"No such attribute: {name}")
-
     def __repr__(self):
         return f"<Mangrove object with data: {self.data}>"
     
@@ -64,19 +60,12 @@ class Mangrove:
                 result.append(name)
         
         return result
-
-    def bind(self, depths, data_types):
-        c = max([len(self.var(depth=depth, data_type=data_type)) for depth, data_type in zip(depths, data_types)])
-        result = []
-        bind = []
-        
-        for i in range(0, c):
-            bind.append(self.var(depth=depths[i], data_type=data_types[i]))
-        
-        for i in range(0, c):
-            row =[]
-            for j in range(0, c):
-                row.append(bind[j][i])
-            result.append(row)
-        
+    
+    def index(self, depth=None, data_type=None):
+        result = {}
+        for name, value in self.data.items():
+            if (depth is None or depth == self.levels[name]) and (data_type is None or isinstance(value, data_type)):
+                result[name] = value
+            elif value is None:
+                result[name] = None
         return result
