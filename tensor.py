@@ -20,5 +20,5 @@ m.add_data(depth=2, type=torch.Tensor, var=["f", "g", "h", "i", "j"], value=[tor
 
 print(m.f)
 
-##### @Abhaas: Please write code such that it can handle memory management and deep copies the variables in memory to GPU without making additional copies 
+##### Hi @Abhaas, please write code for tensor manipulation, indexing and copying to GPU without making additional copies using the index dictionary.
 
