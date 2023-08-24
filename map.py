@@ -20,7 +20,7 @@ mangrove.add_data(depth=2, type=torch.Tensor, var=["f", "g", "h", "i", "j"], val
 
 # Create a binding with cardinality 5 and order int -> matrix -> matrix
 mangrove.bind(name="bind1", cardinal=5,
-              order={"1": "int", "2": "torch.Tensor", "3": "torch.Tensor"})
+              order={"1": "int", "2": "torch.Tensor", "1": "torch.Tensor"})
 
 # Access the binding
 print(mangrove.bind1) # A list of five tuples of the form (int, matrix, matrix)
