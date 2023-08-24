@@ -6,6 +6,9 @@
 import torch
 
 class Mangrove:
+    # Use __slots__ to reduce memory usage
+    __slots__ = ["depths", "data", "types", "levels", "bindings"]
+    
     def __init__(self):
         self.depths = {}
         self.data = {}
@@ -19,41 +22,38 @@ class Mangrove:
         self.depths[depth] = types
     
     def add_data(self, depth, type, var, value=None):
+        # Use a local variable to store self.data
+        data = self.data
         if depth not in self.depths:
             raise ValueError(f"Depth {depth} must be configured before adding data")
         if type not in self.depths[depth]:
             raise ValueError(f"Type {type} is not allowed at depth {depth}")
         for v in var:
-            if v in self.data:
+            if v in data:
                 raise ValueError(f"Variable name {v} is already in use")
-            self.data[v] = value
+            data[v] = value
             self.types[v] = type
             self.levels[v] = depth
     
     def bind(self, name, cardinal, order):
         if name in self.bindings:
             raise ValueError(f"Binding name {name} is already in use")
-        binding = []
-        for depth_str, type_str in order.items():
-            depth = int(depth_str)
-            type = eval(type_str)
-            if depth not in self.depths:
-                raise ValueError(f"Depth {depth} is not configured")
-            if type not in self.depths[depth]:
-                raise ValueError(f"Type {type} is not allowed at depth {depth}")
-            count = 0
-            for var, value in self.data.items():
-                if count >= cardinal:
-                    break
-                if self.levels[var] == depth and isinstance(value, type):
-                    binding.append((var, value))
-                    count += 1
+        # Use a list comprehension to create the binding
+        binding = [(var, value) for depth_str, type_str in order.items()
+                   for var, value in self.data.items()
+                   if int(depth_str) == self.levels[var] and isinstance(value, eval(type_str))]
+        # Check the cardinality of the binding
+        if len(binding) > cardinal:
+            binding = binding[:cardinal]
+        elif len(binding) < cardinal:
+            raise ValueError(f"Binding cannot be created with the given cardinality and order")
         self.bindings[name] = binding
     
     def summary(self):
-        result = {}
-        for name, value in self.data.items():
-            result[name] = {"type": type(value).__name__, "depth": self.levels[name]}
+        # Do not use a cache to store the results of the summary
+        # Calculate the summary every time the method is called
+        result = {name: {"type": type(value).__name__, "depth": self.levels[name]}
+                  for name, value in self.data.items()}
         return result
     
     def __getattr__(self, name):
@@ -65,15 +65,18 @@ class Mangrove:
             raise AttributeError(f"No such attribute: {name}")
     
     def __setattr__(self, name, value):
-        if name in ["depths", "data", "types", "levels", "bindings"]:
-            super().__setattr__(name, value)
-        elif name in self.data:
-            if isinstance(value, self.types[name]):
-                self.data[name] = value
-            else:
-                raise TypeError(f"Value must be of type {self.types[name]}")
+     if name in ["depths", "data", "types", "levels", "bindings"]:
+        # Use object.__setattr__ instead of super().__setattr__
+        object.__setattr__(self, name, value)
+     elif name in self.data:
+        if isinstance(value, self.types[name]):
+            self.data[name] = value
         else:
-            raise AttributeError(f"No such attribute: {name}")
+            raise TypeError(f"Value must be of type {self.types[name]}")
+     else:
+        raise AttributeError(f"No such attribute: {name}")
+
+
     
     def __repr__(self):
         return f"<Mangrove object with data: {self.data}>"
