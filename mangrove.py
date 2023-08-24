@@ -33,22 +33,6 @@ class Mangrove:
             self.types[v] = type
             self.levels[v] = depth
     
-    def bind(self, name, cardinal, order):
-     if name in self.bindings:
-        raise ValueError(f"Binding name {name} is already in use")
-    # Use a list comprehension to create the binding
-     binding = [[(var, value) for var, value in self.data.items()
-                if int(depth_str) == self.levels[var] and isinstance(value, eval(type_str))]
-               for depth_str, type_str in order.items()]
-    # Check if all depths have enough variables to create the binding
-     if not all(len(b) >= cardinal for b in binding):
-        raise ValueError(f"Binding cannot be created with the given cardinality and order")
-    # Create the binding by taking the first `cardinal` variables from each depth
-     binding = [tuple(var for var, value in b[:cardinal]) for b in binding]
-    # Transpose the binding to create tuples of variables from different depths
-     binding = list(zip(*binding))
-     self.bindings[name] = binding
-    
     def summary(self):
         # Do not use a cache to store the results of the summary
         # Calculate the summary every time the method is called
