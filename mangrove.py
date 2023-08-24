@@ -3,8 +3,6 @@
 # Req: CUDA-enabled GPU
 # mangrove.py
 
-import torch
-
 class Mangrove:
     # Use __slots__ to reduce memory usage
     __slots__ = ["depths", "data", "types", "levels", "bindings"]
@@ -36,18 +34,20 @@ class Mangrove:
             self.levels[v] = depth
     
     def bind(self, name, cardinal, order):
-        if name in self.bindings:
-            raise ValueError(f"Binding name {name} is already in use")
-        # Use a list comprehension to create the binding
-        binding = [var for depth_str, type_str in order.items()
-                   for var, value in self.data.items()
-                   if int(depth_str) == self.levels[var] and isinstance(value, eval(type_str))]
-        # Check the cardinality of the binding
-        if len(binding) > cardinal:
-            binding = binding[:cardinal]
-        elif len(binding) < cardinal:
-            raise ValueError(f"Binding cannot be created with the given cardinality and order")
-        self.bindings[name] = binding
+     if name in self.bindings:
+        raise ValueError(f"Binding name {name} is already in use")
+    # Use a list comprehension to create the binding
+     binding = [[(var, value) for var, value in self.data.items()
+                if int(depth_str) == self.levels[var] and isinstance(value, eval(type_str))]
+               for depth_str, type_str in order.items()]
+    # Check if all depths have enough variables to create the binding
+     if not all(len(b) >= cardinal for b in binding):
+        raise ValueError(f"Binding cannot be created with the given cardinality and order")
+    # Create the binding by taking the first `cardinal` variables from each depth
+     binding = [tuple(var for var, value in b[:cardinal]) for b in binding]
+    # Transpose the binding to create tuples of variables from different depths
+     binding = list(zip(*binding))
+     self.bindings[name] = binding
     
     def summary(self):
         # Do not use a cache to store the results of the summary
