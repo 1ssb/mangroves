@@ -21,16 +21,22 @@ def main():
     
     # Access the binding
     print(mangrove.bind1) # [('x', 1), ('y', [1, 2]), ('z', {'a': 1})]
-    print(mangrove.x)
+    
+    # Access and modify the data attributes
+    print(mangrove.x) # 1
     mangrove.x = 2
-    print(mangrove.x)
+    print(mangrove.x) # 2
+    
     # Get a summary of the data stored in the tree
     summary = mangrove.summary()
-    print(summary) # {'x': {'type': 'int', 'depth': 0}, 'y': {'type': 'list', 'depth': 1}, 'z': {'type': 'dict', 'depth': 2}}
+    print(summary) # {'x': {'type': 'int', 'depth': 1}, 'y': {'type': 'list', 'depth': 2}, 'z': {'type': 'dict', 'depth': 3}}
     
+    # Create another Mangrove instance
     mangrove_instance = Mangrove()
     mangrove_instance.config(depth=1, types=[int])
     mangrove_instance.add_data(depth=1, type=int, var=["g"])
+    
+    # Access and modify the data attribute
     print(mangrove_instance.g) # None
     mangrove_instance.g = 1
     print(mangrove_instance.g) # 1
