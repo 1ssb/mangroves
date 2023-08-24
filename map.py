@@ -2,6 +2,7 @@
 # Req: CUDA enabled GPU
 
 from mangrove import Mangrove
+import torch
 
 mangrove = Mangrove()
 
