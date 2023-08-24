@@ -5,100 +5,92 @@
 
 class Mangrove:
     def __init__(self):
-        self.variables = {}
-        self.depths = {}
-        self.data = {}
-        self.structure_ordered = False
-        self.bundles = {}  # Store bundles as a dictionary
+        self.data = {}  # Store data as a dictionary of dictionaries
         self.addresses = {}  # Store variable addresses
 
-    def __setattr__(self, name, value):
-        if name in ["variables", "depths", "__class__", "data", "structure_ordered", "bundles", "addresses"]:
-            super().__setattr__(name, value)
-        elif name in self.variables:
-            raise ValueError(f"Variable {name} is already locked and cannot be reused.")
-        else:
-            self.variables[name] = value
-            self.addresses[name] = id(value)  # Store variable's memory address
-            super().__setattr__(name, value)
-
-    def __getattr__(self, name):
-        if name.startswith('data_') and name[5:] in self.data:
-            return self.data[name[5:]]
-        if name in self.variables:
-            return self.variables[name]
-        else:
-            raise AttributeError(f"{name} not found in Mangrove instance.")
-
-    def __delattr__(self, name):
-        if name in self.variables:
-            raise ValueError(f"Variable {name} is locked and cannot be deleted.")
-        else:
-            super().__delattr__(name)
-
-    def config(self, depth=None, types=None, name=None):
-        if depth is not None:
-            if depth not in self.depths:
-                if depth > 1 and depth - 1 not in self.depths:
-                    raise ValueError(f"Depth {depth - 1} must be configured before configuring depth {depth}.")
-                self.depths[depth] = {"types": [], "names": {}}
-            if types is not None:
-                self.depths[depth]["types"] = types
-            if name is not None:
-                for item in name:
-                    data_type, var_names = item.split(":")
-                    data_type = data_type.strip()
-                    if data_type not in self.depths[depth]["types"]:
-                        raise ValueError(f"Data type {data_type} is not allowed at depth {depth}.")
-                    var_names = var_names.split(",")
-                    for var_name in var_names:
-                        var_name = var_name.strip()
-                        if var_name in self.variables:
-                            raise ValueError(f"Variable {var_name} is already locked and cannot be reused.")
-                        else:
-                            self.variables[var_name] = None
-                            self.addresses[var_name] = None
-                            super().__setattr__(var_name, None)
-                            if data_type not in self.depths[depth]["names"]:
-                                self.depths[depth]["names"][data_type] = []
-                            self.depths[depth]["names"][data_type].append(var_name)
-
-    def bundle(self, cardinal=None, order=None):
-        if cardinal is not None and order is not None:
-            bundle_dict = {}
-            for depth, data_type in order.items():
-                depth = int(depth.split("depth")[-1])
-                if depth in self.depths:
-                    if data_type in self.depths[depth]["types"]:
-                        if len(self.depths[depth]["names"][data_type]) < int(cardinal):
-                            raise ValueError(f"Cardinality number of {data_type} not met at depth {depth}.")
-                    else:
-                        raise ValueError(f"Data type {data_type} is not allowed at depth {depth}.")
-                else:
-                    raise ValueError(f"Depth {depth} must be configured before using it.")
+    def config(self, depth=None, data_types=None, data=None):
+        if depth is None or data_types is None or data is None:
+            raise ValueError("Missing required parameters: depth, data_types, data")
+        
+        if depth in self.data:
+            raise ValueError(f"Depth {depth} is already configured.")
+        
+        self.data[depth] = {}
+        
+        for data_type, data_dict in data.items():
+            if data_type not in data_types:
+                raise ValueError(f"Data type {data_type} is not allowed at depth {depth}.")
+            
+            for variable_name, variable_data in data_dict.items():
+                if variable_name in self.data[depth]:
+                    raise ValueError(f"Variable {variable_name} is already configured at depth {depth}.")
                 
-                bundle_dict[f"bundle {depth}"] = data_type  # Store bundle info
+                self.data[depth][variable_name] = variable_data
+                self.addresses[variable_name] = id(variable_data)
+                setattr(self, variable_name, variable_data)  # Lock variable name as attribute
 
-            self.bundles = bundle_dict
-            self.structure_ordered = True
+    def pop(self, depth=None):
+        if depth is None:
+            raise ValueError("Missing required parameter: depth")
+        
+        if depth not in self.data:
+            raise ValueError(f"Depth {depth} is not configured.")
+        
+        return self.data[depth]
 
-    def pop(self, variable_name=None):
-        if self.structure_ordered:
-            if variable_name is None:
-                structure_str = ""
-                for depth, data in sorted(self.depths.items()):
-                    for data_type, var_names in data["names"].items():
-                        structure_str += ":".join(var_names) + ":"
-                print(structure_str[:-1])
-            else:
-                if variable_name in self.data:
-                    return self.data[variable_name]
-                else:
-                    return f"No data found for variable {variable_name}."
-
-    def dict(self):
-        return self.bundles  # Return the bundle dictionary
+    def data(self, depth=None, data_type=None, variable_name=None):
+        if depth is None:
+            raise ValueError("Missing required parameter: depth")
+        
+        if variable_name is None:  # Return all data at the given depth
+            if depth not in self.data:
+                raise ValueError(f"Depth {depth} is not configured.")
+            return self.data[depth]
+        
+        if data_type is not None:  # Access variable by name and data type
+            if depth not in self.data or variable_name not in self.data[depth]:
+                raise ValueError(f"Variable {variable_name} not found at depth {depth}.")
+            return self.data[depth][variable_name]
+        
+        raise ValueError("Missing required parameter: data_type")
 
     def adrs(self):
-        return {f"{depth}: {var}": hex(self.addresses[var]) for var, depth in self.variables.items()}
+        return {f"{depth}: {var}": hex(self.addresses[var]) for var in self.addresses}
 
+    def summary(self):
+        summary_info = {}
+        for depth, depth_data in self.data.items():
+            summary_info[depth] = {}
+            for data_type, var_dict in depth_data.items():
+                summary_info[depth][data_type] = list(var_dict.keys())
+        return summary_info
+
+# Example usage
+mangrove_instance = Mangrove()
+
+# Configure data at depth 1
+mangrove_instance.config(depth=1, data_types=["int", "list"], data={
+    "int_data": 42,
+    "list_data": [1, 2, 3]
+})
+
+# Configure data at depth 2
+mangrove_instance.config(depth=2, data_types=["str", "dict"], data={
+    "str_data": "Hello",
+    "dict_data": {"key": "value"}
+})
+
+# Access data at depth 1
+print(mangrove_instance.pop(depth=1))  # Output: {'int_data': 42, 'list_data': [1, 2, 3]}
+
+# Access data of a specific type at depth 2
+print(mangrove_instance.data(depth=2, data_type="str"))  # Output: {'str_data': 'Hello'}
+
+# Access specific variable by name and data type
+print(mangrove_instance.data(depth=1, data_type="int", variable_name="int_data"))  # Output: 42
+
+# Access variable directly by attribute name
+print(mangrove_instance.int_data)  # Output: 42
+
+# Print summary of all variables at various depths and types
+print(mangrove_instance.summary())
