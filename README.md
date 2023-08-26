@@ -1,8 +1,8 @@
 # Mangrove Project
 
-### Pending---Phase 2: DeepCopy to GPU memory and GPU operations return updated mangrove to the CPU. (In progress tensor.py) Abhaas kindly read the description, and the mangrove and main codes and replicate all functionalities for PyTorch Tensor and check if we can pass the index dictionary directly to the GPU for unpacking and operations.
+### Pending---Phase 2: Passing index dictionary to CUDA.
 
-### Pending---Phase 3: Perform all unit tests and push to production in PyPI library. As installable package pip install mangrove.
+### Pending---Phase 3: Perform all unit tests and push to production in the PyPI library. As an installable package pip install mangrove.
 
 ## Mangrove - A fully customizable High Dimensional High-Density Liquid Data Structure for next-gen AI
 
