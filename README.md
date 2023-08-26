@@ -8,7 +8,44 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
 
 ## Installation
 
+#### Option 1: Use the PyPI library
 
+
+
+#### Option 2: Clone the GitHub Repository
+
+1. Open your terminal and run the following command to clone the repository:
+    ```bash
+    git clone https://github.com/1ssb/mangroves.git
+    ```
+   
+2. Navigate to the cloned repository:
+    ```bash
+    cd mangroves
+    ```
+
+3. Install the package:
+    ```bash
+    pip install .
+    ```
+
+#### Option 3: Download ZIP
+
+1. Navigate to the GitHub repository at [https://github.com/1ssb/mangroves](https://github.com/1ssb/mangroves).
+
+2. Click on the `Code` button and choose `Download ZIP`.
+
+3. Extract the ZIP file.
+
+4. Open your terminal and navigate to the extracted folder:
+    ```bash
+    cd path/to/extracted/mangroves
+    ```
+
+5. Install the package:
+    ```bash
+    pip install .
+    ```
 
 ## Citation
 
