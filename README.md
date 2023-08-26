@@ -1,6 +1,6 @@
 # Mangrove Project
 
-### Pending---Phase 3: Rewrite Final Documentation
+### Pending---Phase 4: Prepare for release.
 
 # Mangrove: Dynamic Data Management Engine for Advanced AI Applications
 
