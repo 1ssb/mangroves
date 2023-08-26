@@ -30,24 +30,6 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
     pip install .
     ```
 
-#### Option 3: Download ZIP
-
-1. Navigate to the GitHub repository at [https://github.com/1ssb/mangroves](https://github.com/1ssb/mangroves).
-
-2. Click on the `Code` button and choose `Download ZIP`.
-
-3. Extract the ZIP file.
-
-4. Open your terminal and navigate to the extracted folder:
-    ```bash
-    cd path/to/extracted/mangroves
-    ```
-
-5. Install the package:
-    ```bash
-    pip install .
-    ```
-    
 ### Usage
 
 You can now import the Mangroves library in your Python code as follows:
