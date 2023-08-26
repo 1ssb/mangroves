@@ -68,9 +68,8 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
 
 # Citation
 
-If you find this code useful in your research, please consider citing:
+If you find this code useful in your research, please cite as:
 
-``bibtex
 @misc{Mangrove2023,
   author = {Subhransu S. Bhattacharjee},
   title = {Mangrove: Dynamic Data Management Engine for Advanced AI Applications},
