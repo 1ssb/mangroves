@@ -1,4 +1,4 @@
-# code by 1ssb & abhaasgoyal (Pending)
+# code by 1ssb (Pending)
 # Req: CUDA enabled GPU
 
 from mangrove import Mangrove
