@@ -1,10 +1,9 @@
-# Mangrove Project
-
-### Phase 6: Verifying release by testing use cases in non-local systems before PyPI release.
-
-# Mangroves: A Dynamic Data Management System for Advanced AI Applications
-
+# Mangrove: A Dynamic Data Management System for Advanced AI Applications
+#### Phase 7: Final Verification phase in progress.
 Unlock a new paradigm of data management with Mangrove—a high-density, multi-dimensional data structure engineered to streamline variable handling across various depths and types. Mangrove simplifies data management in Robotics, NLP, computer vision and other AI applications by providing a versatile and efficient way to handle variables of varying types and depths. By using Mangrove, you can focus more on your AI model development and less on data organization.
+
+# Description
+Mangrove is a utility data structure designed to manage various types of data within multi-layered superstructures, denoted by 'depths.' It offers high-fidelity operations, including the ability to transfer values to the GPU for accelerated computing. As the program runs, Mangrove naturally organizes data in a structured manner based on its importance and requirements. It can move priority tensors to the GPU for computation and later retrieve them, adding them back as attributes within the same instance. This provides an end-to-end management utility well-suited for large-scale, episodic training processes and data acquisition systems, making it highly versatile and applicable to a range of use cases.
 
 ## Installation
 
