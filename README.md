@@ -11,7 +11,7 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
 #### Option 1: Use the PyPI library
 
 ```bash
-pip install mangroves==1.0.0
+pip install mangroves
 ```
 
 #### Option 2: Clone the GitHub Repository
