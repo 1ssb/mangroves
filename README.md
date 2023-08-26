@@ -2,102 +2,83 @@
 
 ### Pending---Phase 2: Passing index dictionary to CUDA.
 
-### Pending---Phase 3: Perform all unit tests and push to production in the PyPI library. As an installable package pip install mangrove.
+### Pending---Phase 3: Push to Release
 
-## Mangrove - A fully customizable High Dimensional High-Density Liquid Data Structure for next-gen AI
+## Mangrove: Dynamic Data Management Engine for Advanced AI Applications
 
-Mangrove is a custom data structure that provides dynamic configuration and management of variables across multiple depths and data types. It offers flexible configuration, ordered bundling, memory address tracking, and more. Use cases available in main.py.
+Unlock a new paradigm of data management with Mangrove—a high-density, multi-dimensional data structure engineered to streamline variable handling across various depths and types. Explore example use-cases in `main.py`.
 
-## Functionality
+## Key Features
 
-### Attributes
+### Data Structures
+- **`depths`**: Map depth levels to their permitted data types.
+- **`data`**: Key-value store for variable names and their values.
+- **`types`**: Type mapping for variables.
+- **`levels`**: Depth mapping for variables.
+- **`index`**: An optimized way to access variables based on depth and data type.
 
-- `depths`: A dictionary that holds depth values as keys and corresponding allowed types as values.
-- `data`: A dictionary to store variable names as keys and their associated values.
-- `types`: A dictionary that maps variable names to their data types.
-- `levels`: An internal dictionary that associates variable names with their depths.
-- `index`: A dictionary which stores all the variables stored in a certain depth for a particular data type.
+### Dynamic Configuration
 
-### Configuring Depths and Types
+#### `config()`
+- Configure depth-specific allowed data types.
+- Throws an error if dependencies between depths are violated.
 
-The `config` method allows the configuration of depths and associated types. It takes depth and a list of types as arguments. If the given depth requires a preceding depth to be configured, it checks for its presence in the depths dictionary. If not, it raises a ValueError.
+#### `add_data()`
+- Dynamically add variables with optional initial values.
+- Enforces pre-configured depth and data type constraints.
 
-### Adding Data
+### Insightful Summaries
 
-The `add_data` method adds data to the Mangrove object. It requires a depth, type, variable name(s) `var`, and an optional value. It verifies that the provided depth and type are configured and then adds the variable names and associated values to the data dictionary, along with their types and depths.
+#### `summary()`
+- Obtain a quick snapshot of variable types, depths, and more.
 
-### Summary
+### Dynamic Access
 
-The `summary` method generates a summary of the data stored in the Mangrove object. It creates a dictionary where variable names are keys, and each entry includes the variable's type and depth.
+#### `__getattr__` & `__setattr__`
+- Retrieve or set variable values dynamically.
+- Thorough error handling for invalid accesses.
 
-### Dynamic Attribute Access
+### Other Methods
 
-The methods `__getattr__` and `__setattr__` are used to dynamically access and set attributes of the Mangrove object. If the attribute is a variable name stored in data, `__getattr__` returns the associated value. If it's a variable name in bindings, the corresponding value is returned. If the attribute doesn't match any stored variables, an AttributeError is raised.
+#### `__repr__()`
+- Generate a string representation of the data store.
 
-### String Representation
+#### `var()`
+- Filter variable names based on depth and type.
 
-The `__repr__` method provides a string representation of the Mangrove object, showing its data dictionary.
+#### `index()`
+- Easily organize and retrieve variables with built-in indexing based on depth and data type.
 
-### Variable Listing
+## Practical Applications
 
-The `var` method allows listing variable names based on specified depth and data type filters. If depth and/or data_type are provided, the method returns a list of variable names that match the given criteria.
+### Computer Vision:
+- From object detection to facial recognition, Mangrove enables flexible and efficient data management.
 
-### Indexing
+### NLP:
+- Ideal for complex tasks like sentiment analysis, text summarization, and question answering.
 
-The `index` method binds variables together based on specified depths and data types as a dictionary. It can be parsed for downstream applications and creates a natural indexing order to represent dimensionality.
+### Healthcare & Finance:
+- Enable predictive modeling in healthcare or optimize financial portfolios, all with Mangrove's dynamic capabilities.
+
+### Recommendation Systems & Gaming:
+- Simplify setup for recommendation algorithms or game state management for AI training.
+
+### Energy & Econometrics:
+- Optimize energy consumption or efficiently manage time-series data for econometric models.
+
+# Citation
+
+📋 *Click to Copy*
+
+@misc{Mangrove2023,
+  author = {Subhransu S. Bhattacharjee},
+  title = {Mangrove: Dynamic Data Management Engine for Advanced AI Applications},
+  year = {2023},
+  note = {GitHub repository},
+  howpublished = {\url{https://github.com/1ssb/Mangrove}}
+}
 
 
-## Possible Applications
 
-### Computer Vision Applications:
 
-- **Image Classification:** Mangrove's dynamic configuration simplifies image classification setups, streamlining variable management for image data and labels.
-
-- **Object Detection:** Efficiently organize object detection datasets by leveraging Mangrove's variable depth and type configuration for bounding box coordinates and class labels.
-
-- **Facial Recognition:** Mangrove's ordered bundling aids in managing facial recognition datasets, making it easy to arrange face images and associated identities.
-
-- **Image Segmentation:** Flexibly handle image segmentation tasks with Mangrove's variable configurations for input images and masks, accommodating pixel-level annotations.
-
-- **Medical Imaging:** Mangrove's versatile data management suits medical imaging tasks, supporting multi-modal data, annotations, and classifications across medical image formats.
-
-- **Autonomous Vehicles:** Simplify the organization of sensor data from autonomous vehicles with Mangrove's depth-based configuration, accommodating various data types like LiDAR, cameras, and radar.
-
-### Natural Language Processing (NLP) Applications:
-
-- **Sentiment Analysis:** Utilize Mangrove's ordered bundling to efficiently manage sentiment analysis datasets, pairing text samples with sentiment labels for model training.
-
-- **Text Summarization:** Mangrove's dynamic configuration caters to text summarization tasks, efficiently managing source texts and their corresponding summaries.
-
-- **Question Answering:** Effortlessly set up question answering tasks with Mangrove by configuring variables for passages, questions, and answers, ensuring dataset coherence.
-
-- **Language Translation:** Leverage Mangrove's flexibility to configure multilingual translation datasets, maintaining alignment between source and target texts for translation models.
-
-- **Named Entity Recognition:** Harness Mangrove's data organization capabilities for labeled entity management, supporting named entity recognition tasks.
-
-### Other AI Applications:
-
-- **Healthcare Predictive Modeling:** Mangrove's dynamic configuration and data management capabilities are valuable for healthcare predictive modeling, facilitating diverse patient data organization.
-
-- **Financial Analysis:** Utilize Mangrove for financial data handling, benefiting from ordered bundling and variable management in predictive analytics, fraud detection, and portfolio optimization.
-
-- **Recommendation Systems:** Efficiently set up recommendation system experiments with Mangrove, organizing user-item interaction data and recommendation targets using its flexible configuration.
-
-- **Gaming AI:** Mangrove efficiently organizes game data for training AI agents, managing game states, actions, and rewards, facilitating reinforcement learning experiments.
-
-- **Energy Management:** Effectively organize sensor data for energy consumption analysis using Mangrove's data management capabilities, optimizing energy usage in buildings and industrial setups.
-
-### Econometrics and Time Series Data Management:
-
-- **Data Organization:** Leverage Mangrove's dynamic configuration to efficiently manage and organize econometrics and time series datasets.
-
-- **Variable Relationships:** Easily analyze relationships between variables with Mangrove's structured data setup, supporting regression analysis and correlation assessments.
-
-- **Time Series Handling:** Configure variables to represent different time periods for streamlined management and analysis of time series data.
-
-- **Forecasting and Modeling:** Utilize Mangrove's ordered bundling to set up forecasting experiments, bundling historical data, exogenous factors, and outcomes.
-
-- **Financial Data Management:** Efficiently manage financial time series data (e.g., stock prices, economic indicators) with Mangrove, aiding in portfolio optimization and risk assessment.
-
-- **Impact Analysis:** Structure scenarios and analyze the impact of economic events or policy changes using Mangrove's dynamic data management capabilities.
 
