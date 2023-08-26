@@ -5,6 +5,13 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
 # Description
 Mangrove is a utility data structure designed to manage various types of data within multi-layered superstructures, denoted by 'depths.' It offers high-fidelity operations, including the ability to transfer values to the GPU for accelerated computing. As the program runs, Mangrove naturally organizes data in a structured manner based on its importance and requirements. It can move priority tensors to the GPU for computation and later retrieve them, adding them back as attributes within the same instance. This provides an end-to-end management utility well-suited for large-scale, episodic training processes and data acquisition systems, making it highly versatile and applicable to a range of use cases.
 
+### Requirements
+
+- CUDA-enabled GPU
+- Python 3.x
+- Torch >=1.8
+- Sympy
+  
 ## Installation
 
 #### Option 1: Use the PyPI library
@@ -32,7 +39,7 @@ pip install mangroves
 
 ### Usage
 
-You can now import the Mangroves library in your Python code as follows:
+You can now import the Mangroves library in your Python code and use them directly for instantiation. You can use it as follows:
 
 ```python
 import torch
@@ -91,6 +98,7 @@ if __name__ == "__main__":
     main()
 ```
 
+#### Pitfall (Warning): It is highly recommended to use Mangrove with the exception handler.
 
 ## License
 
