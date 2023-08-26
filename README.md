@@ -2,7 +2,7 @@
 
 ### Pending---Phase 4: Prepare for release final release.
 
-# Mangrove: Dynamic Data Management Engine for Advanced AI Applications
+# Mangrove: Dynamic Data Management system for Advanced AI Applications
 
 Unlock a new paradigm of data management with Mangrove—a high-density, multi-dimensional data structure engineered to streamline variable handling across various depths and types.
 
@@ -50,6 +50,22 @@ Mangrove simplifies data management in Robotics, NLP, computer vision and other 
 #### `index()`
 - Easily organize and retrieve variables with built-in indexing based on depth and data type.
 
+## Special Functionalities in Mangrove
+
+### `tocuda`: Seamless Data Transfer to GPU (CUDA)
+
+The `tocuda` method is a powerful tool designed to streamline the transition of your variables to the GPU, specifically if a CUDA-enabled GPU is available. This function enables you to efficiently utilize the power of GPUs for enhanced computation. When calling `tocuda`, you can specify optional parameters such as the desired depth or data type. Mangrove will automatically identify variables that match the specified criteria and move their tensor data to the CUDA memory space. This ensures seamless integration of GPU acceleration without the need for complex manual transfers.
+
+### Depth 0: Pre-Configured Untyped Data
+
+Mangrove introduces the concept of Depth 0, designed to manage untyped data efficiently. Depth 0 acts as a pre-configured container for various data types, including integers, floats, strings, and PyTorch tensors. This allows you to initialize variables without specifying their types, making it a versatile foundation for managing different data types in an organized manner. Any variable added at Depth 0 will be untyped and flexible, simplifying the early stages of variable management.
+
+### `push`: Dynamic Variable Depth Modification
+
+The `push` functionality within Mangrove facilitates dynamic and flexible management of variable depths. By utilizing `push`, you can adjust the depth of a variable, allowing it to seamlessly transition to a different level within the depth hierarchy. However, it's important to note that the `push` operation can only be performed on variables located at Depth 0. This feature is particularly valuable when you need to reorganize your variables based on evolving requirements or to optimize the efficiency of your data processing pipeline.
+
+Incorporating these specialized functionalities enhances the versatility and adaptability of the Mangrove library, offering you dynamic control over variable depths, efficient GPU utilization, and a foundation for untyped data management.
+
 ## Practical Applications
 
 ### Computer Vision:
@@ -78,15 +94,3 @@ If you find this code useful in your research, please cite as:
   note = {GitHub repository},
   howpublished = {\url{https://github.com/1ssb/mangroves}}
 }
-
-
-
-
-
-
-
-
-
-
-
-
