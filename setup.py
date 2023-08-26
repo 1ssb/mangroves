@@ -2,16 +2,15 @@ from setuptools import setup, find_packages
 
 setup(
     name='mangroves',
-    version='1.0',
-    packages=find_packages(),
+    version='1.0.0',
+    packages=find_packages(where='mangroves'),
     install_requires=[
         'torch>=1.8.1',
     ],
     author='Subhransu S. Bhattacharjee',
-    author_email='your.email@example.com',
+    author_email='Subhransu.Bhattacharjee@anu.edu.au',
     description='A Dynamic Data Management Engine for Advanced AI Applications',
-    long_description=open('README.md').read(),
-    long_description_content_type="text/markdown",
+    long_description='For the full documentation and installation instructions, please visit the GitHub page: https://github.com/1ssb/mangroves',
     url='https://github.com/1ssb/mangroves',
     classifiers=[
         "Programming Language :: Python :: 3",
