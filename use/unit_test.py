@@ -1,6 +1,6 @@
 import unittest
-from mangrove import Mangrove, MangroveException  # Assuming that this import works as expected
 import torch
+from mangroves.mangrove import Mangrove, MangroveException
 
 class TestMangrove(unittest.TestCase):
 
