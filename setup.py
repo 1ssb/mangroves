@@ -9,7 +9,7 @@ setup(
     ],
     author='Subhransu S. Bhattacharjee',
     author_email='Subhransu.Bhattacharjee@anu.edu.au',
-    description='A Dynamic Data Management Engine for Advanced AI Applications',
+    description='A Dynamic Data Management system for Advanced AI Applications',
     long_description='For the full documentation and installation instructions, please visit the GitHub page: https://github.com/1ssb/mangroves',
     url='https://github.com/1ssb/mangroves',
     classifiers=[
