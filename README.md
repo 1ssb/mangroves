@@ -1,6 +1,7 @@
 # Mangrove Project
 
-### Phase 4: Preparing for release.
+### Phase 5: Preparing for PyPI release.
+### Pending Phase 6: Verifying use cases.
 
 # Mangroves: A Dynamic Data Management System for Advanced AI Applications
 
@@ -46,11 +47,26 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
     ```bash
     pip install .
     ```
+    
+### Usage
+
+You can now import the Mangroves library in your Python code as follows:
+
+```python
+from mangroves import Mangrove
+```
+
+For further understanding of usages use the ```.\use``` directory files.
+
+## License
+
+The package is licensed under the MIT License.
 
 ## Citation
 
 If you find this code useful in your research, please cite as:
 
+```bash
 @misc{Mangrove2023,
   author = {Subhransu S. Bhattacharjee},
   title = {Mangrove: Dynamic Data Management Engine for Advanced AI Applications},
@@ -58,3 +74,4 @@ If you find this code useful in your research, please cite as:
   note = {GitHub repository},
   howpublished = {\url{https://github.com/1ssb/mangroves}}
 }
+```
