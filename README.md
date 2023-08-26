@@ -35,7 +35,7 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
 You can now import the Mangroves library in your Python code as follows:
 
 ```python
-from mangroves import Mangrove
+from mangroves import Mangrove, MangroveException
 ```
 
 For further understanding of usages use the ```.\use``` directory files.
