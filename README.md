@@ -68,8 +68,9 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
 
 # Citation
 
-<!-- BibTeX Citation Text Area -->
-<textarea id="bibtexCitation">
+If you find this code useful in your research, please consider citing:
+
+``bibtex
 @misc{Mangrove2023,
   author = {Subhransu S. Bhattacharjee},
   title = {Mangrove: Dynamic Data Management Engine for Advanced AI Applications},
@@ -77,28 +78,12 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
   note = {GitHub repository},
   howpublished = {\url{https://github.com/1ssb/mangrove}}
 }
-</textarea>
 
-<!-- Click to Copy Button -->
-<button onclick="copyToClipboard()">Copy to Clipboard</button>
 
-<!-- JavaScript to handle the copy action -->
-<script>
-  function copyToClipboard() {
-    /* Get the text field */
-    var copyText = document.getElementById("bibtexCitation");
 
-    /* Select the text field */
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); /* For mobile devices */
 
-    /* Copy the text inside the text field */
-    document.execCommand("copy");
 
-    /* Alert the copied text */
-    alert("Copied to clipboard");
-  }
-</script>
+
 
 
 
