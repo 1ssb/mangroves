@@ -1,6 +1,6 @@
 # Mangrove Project
 
-### Phase 6: Verifying release by testing use cases in non-local systems.
+### Phase 6: Verifying release by testing use cases in non-local systems before PyPI release.
 
 # Mangroves: A Dynamic Data Management System for Advanced AI Applications
 
