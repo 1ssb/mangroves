@@ -18,10 +18,6 @@ Mangrove is a custom data structure that provides dynamic configuration and mana
 - `levels`: An internal dictionary that associates variable names with their depths.
 - `index`: A dictionary which stores all the variables stored in a certain depth for a particular data type.
 
-### Constructor
-
-The constructor `__init__` initializes the Mangrove object by creating empty dictionaries for depths, data, types, levels, and bindings.
-
 ### Configuring Depths and Types
 
 The `config` method allows the configuration of depths and associated types. It takes depth and a list of types as arguments. If the given depth requires a preceding depth to be configured, it checks for its presence in the depths dictionary. If not, it raises a ValueError.
