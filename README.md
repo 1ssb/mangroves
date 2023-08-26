@@ -39,7 +39,7 @@ pip install mangroves
 
 ## Usage
 
-You can now import the Mangroves library in your Python code and use them directly for instantiation. You can use it as follows:
+You can now import the Mangroves library in your Python code and use them directly for instantiation. A set of uses cases are provided as follows:
 
 ```python
 import torch
@@ -51,7 +51,7 @@ def main():
         mangrove = Mangrove()
 
         print("Configuring depth 1...")
-        mangrove.config(1, [int, float])
+        mangrove.config(1, [int, float, torch.Tensor])
         print("Depth 1 configured.")
 
         print("Adding data to depth 1...")
@@ -91,11 +91,21 @@ def main():
         mangrove.tocuda(data_type=torch.Tensor)
         print("All tensor variables moved to CUDA.")
 
+        # Retrieving tensor_data from CUDA and adding it to depth 1
+        print("Retrieving 'tensor_data' back from CUDA...")
+        tensor_data_cpu = mangrove.tensor_data.cpu()
+        print("Retrieved 'tensor_data' back from CUDA.")
+
+        print("Adding retrieved 'tensor_data' to depth 1...")
+        mangrove.add_data(1, torch.Tensor, ["retrieved_tensor_data"], [tensor_data_cpu])
+        print("Retrieved 'tensor_data' added to depth 1.")
+
     except MangroveException as e:
         print("An error occurred:", e)
 
 if __name__ == "__main__":
     main()
+
 ```
 
 #### Pitfall (Warning): It is highly recommended to use Mangrove with the exception handler.
