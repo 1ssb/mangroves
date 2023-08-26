@@ -36,7 +36,7 @@ pip install mangroves
 You can now import the Mangroves library in your Python code as follows:
 
 ```python
-from mangroves import Mangrove, MangroveException
+from mangroves.mangrove import Mangrove, MangroveException
 ```
 
 For further understanding of usages use the ```./use``` directory files.
