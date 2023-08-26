@@ -5,41 +5,49 @@ from mangroves.mangrove import Mangrove, MangroveException
 
 def main():
     try:
-        # Initialize Mangrove object
+        print("Initializing Mangrove object...")
         mangrove = Mangrove()
 
-        # Configure depth 1 to support integers and floats
+        print("Configuring depth 1...")
         mangrove.config(1, [int, float])
+        print("Depth 1 configured.")
 
-        # Add data to depth 1
+        print("Adding data to depth 1...")
         mangrove.add_data(1, int, ["age"], [25])
         mangrove.add_data(1, float, ["height"], [5.9])
+        print("Data added to depth 1.")
 
-        # Add tensor data to depth 0 (pre-configured)
+        print("Adding tensor data to depth 0 (pre-configured)...")
         mangrove.add_data(0, torch.Tensor, ["tensor_data"], [torch.tensor([1, 2, 3])])
+        print("Tensor data added to depth 0.")
 
-        # Access variable directly
-        print("Accessing directly: ", mangrove.age)
+        print("Directly accessing variable 'age'...")
+        print("Accessing directly:", mangrove.age)
 
-        # Update the age variable directly
+        print("Updating the 'age' variable...")
         mangrove.age = 26
+        print("Age updated.")
 
-        # Access summary
+        print("Accessing summary...")
         summary = mangrove.summary()
-        print("Summary: ", summary)
+        print("Summary:", summary)
 
-        # Get variables with a particular depth and type
-        print("Variables at depth 1: ", mangrove.var(depth=1))
-        print("Variables of type int: ", mangrove.var(data_type=int))
+        print("Getting variables at depth 1...")
+        print("Variables at depth 1:", mangrove.var(depth=1))
 
-        # Index to get specific data
-        print("Indexing at depth 1: ", mangrove.index(depth=1))
+        print("Getting variables of type int...")
+        print("Variables of type int:", mangrove.var(data_type=int))
 
-        # Push tensor_data to depth 1
+        print("Indexing at depth 1...")
+        print("Indexing at depth 1:", mangrove.index(depth=1))
+
+        print("Pushing 'tensor_data' to depth 1...")
         mangrove.push(1, "tensor_data")
+        print("'tensor_data' pushed to depth 1.")
 
-        # Move all tensor variables to CUDA
+        print("Moving all tensor variables to CUDA...")
         mangrove.tocuda(data_type=torch.Tensor)
+        print("All tensor variables moved to CUDA.")
 
     except MangroveException as e:
         print("An error occurred:", e)
