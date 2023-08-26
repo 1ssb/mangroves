@@ -74,7 +74,7 @@ If you find this code useful in your research, please cite as:
   title = {Mangrove: Dynamic Data Management Engine for Advanced AI Applications},
   year = {2023},
   note = {GitHub repository},
-  howpublished = {\url{https://github.com/1ssb/mangrove}}
+  howpublished = {\url{https://github.com/1ssb/mangroves}}
 }
 
 
