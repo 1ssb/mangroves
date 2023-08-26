@@ -1,9 +1,9 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='mangroves',
     version='1.0.1',
-    packages=find_packages(where='mangroves'),
+    packages=['mangroves'],
     install_requires=[
         'torch>=1.8.1',
     ],
