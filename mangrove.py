@@ -1,5 +1,7 @@
 # Code by 1ssb
 
+import torch
+
 class Mangrove:
     __slots__ = ["depths", "data", "types", "levels"]
     
@@ -14,26 +16,29 @@ class Mangrove:
             raise ValueError(f"Depth {depth-1} must be configured before depth {depth}")
         self.depths[depth] = types
     
-    def add_data(self, depth, type, var, value=None):
-        data = self.data
+    def add_data(self, depth, data_type, var, value=None):
         if depth not in self.depths:
             raise ValueError(f"Depth {depth} must be configured before adding data")
-        if type not in self.depths[depth]:
-            raise ValueError(f"Type {type} is not allowed at depth {depth}")
-        for v in var:
-            if v in data:
+        if data_type not in self.depths[depth]:
+            raise ValueError(f"Type {data_type} is not allowed at depth {depth}")
+            
+        if value is not None and len(var) != len(value):
+            raise ValueError("Length of var and value lists should match")
+            
+        for i, v in enumerate(var):
+            if v in self.data:
                 raise ValueError(f"Variable name {v} is already in use")
-            data[v] = value
-            self.types[v] = type
+            
+            val = value[i] if value is not None else None
+            self.data[v] = val
+            self.types[v] = data_type
             self.levels[v] = depth
     
     def summary(self):
-        result = {name: {"type": type(value).__name__, "depth": self.levels[name]}
-                  for name, value in self.data.items()}
-        return result
+        return {name: {"type": type(value).__name__, "depth": self.levels[name]} for name, value in self.data.items()}
     
     def __setattr__(self, name, value):
-        if name in ["depths", "data", "types", "levels"]:
+        if name in self.__slots__:
             object.__setattr__(self, name, value)
         elif name in self.data:
             if isinstance(value, self.types[name]):
@@ -54,11 +59,9 @@ class Mangrove:
     
     def var(self, depth=None, data_type=None):
         result = []
-        # Depth and Types should be in quotes
         for name, value in self.data.items():
-            if (not depth or depth == str(self.levels[name])) and (not data_type or data_type == type(value).__name__):
+            if (depth is None or depth == self.levels[name]) and (data_type is None or isinstance(value, data_type)):
                 result.append(name)
-        
         return result
     
     def index(self, depth=None, data_type=None):
@@ -66,6 +69,4 @@ class Mangrove:
         for name, value in self.data.items():
             if (depth is None or depth == self.levels[name]) and (data_type is None or isinstance(value, data_type)):
                 result[name] = value
-            elif value is None:
-                result[name] = None
         return result
