@@ -1,7 +1,7 @@
 # A Use case on how to use Mangroves
 
 import torch
-from mangrove import Mangrove, MangroveException  # Assuming the class is saved in a file called 'mangrove.py'
+from mangroves.mangrove import Mangrove, MangroveException
 
 def main():
     try:
