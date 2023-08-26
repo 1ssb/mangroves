@@ -1,0 +1,22 @@
+# Python related
+__pycache__/
+*.pyc
+*.pyo
+
+# Distribution / packaging
+.Python
+dist/
+*.egg-info/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+
+# Development environment files
+.idea/
+.vscode/
+
+# Temporary files
+*.bak
