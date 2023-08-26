@@ -38,7 +38,7 @@ You can now import the Mangroves library in your Python code as follows:
 from mangroves import Mangrove, MangroveException
 ```
 
-For further understanding of usages use the ```.\use``` directory files.
+For further understanding of usages use the ```./use``` directory files.
 
 ## License
 
