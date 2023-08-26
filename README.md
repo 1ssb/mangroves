@@ -1,10 +1,8 @@
 # Mangrove Project
 
-### Pending---Phase 2: Passing index dictionary to CUDA.
+### Pending---Phase 3: Rewrite Final Documentation
 
-### Pending---Phase 3: Push to Release
-
-## Mangrove: Dynamic Data Management Engine for Advanced AI Applications
+# Mangrove: Dynamic Data Management Engine for Advanced AI Applications
 
 Unlock a new paradigm of data management with Mangrove—a high-density, multi-dimensional data structure engineered to streamline variable handling across various depths and types. Explore example use-cases in `main.py`.
 
@@ -26,6 +24,7 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
 #### `add_data()`
 - Dynamically add variables with optional initial values.
 - Enforces pre-configured depth and data type constraints.
+- Throws an error if the length of variable names and values do not match.
 
 ### Insightful Summaries
 
