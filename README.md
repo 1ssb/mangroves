@@ -114,6 +114,8 @@ if __name__ == "__main__":
 
 The package is licensed under the MIT License.
 
+#### Acknowledgment: Thanks to Abhaas Goyal (@abhaasgoyal) for productive conversations. 
+
 ## Citation
 
 If you find this code useful in your research, please cite as:
