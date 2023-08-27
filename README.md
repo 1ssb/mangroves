@@ -120,7 +120,7 @@ The package is licensed under the MIT License.
 
 If you find this code useful in your research, please cite as:
 
-```bash
+```latex
 @misc{Mangrove2023,
   author = {Subhransu S. Bhattacharjee},
   title = {Mangrove: Dynamic Data Management Engine for Advanced AI Applications},
