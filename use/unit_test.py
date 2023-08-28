@@ -90,6 +90,28 @@ class TestMangrove(unittest.TestCase):
         m.tocuda()
         self.assertTrue(m.t.is_cuda)
 
+    def test_shift(self):
+        m = Mangrove()
+        m.config(1, [int, torch.Tensor])
+        m.config(2, [int])
+        m.add_data(1, int, ["x"], [1])
+        
+        # Test shifting to a compatible depth
+        m.shift(to=2, variable_name="x")
+        self.assertEqual(m.levels, {"x": 2})
+        
+        # Test shifting back to depth 0
+        m.shift(to=0, variable_name="x")
+        self.assertEqual(m.levels, {"x": 0})
+        
+        # Test attempting to shift to an incompatible depth
+        with self.assertRaises(MangroveException):
+            m.shift(to=1, variable_name="x")
+        
+        # Test attempting to shift a non-existent variable
+        with self.assertRaises(MangroveException):
+            m.shift(to=1, variable_name="non_existent_var")
+
 if __name__ == '__main__':
     unittest.main()
 
