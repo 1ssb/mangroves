@@ -123,7 +123,7 @@ If you find this code useful in your research, please cite as:
 ```latex
 @misc{Mangrove2023,
   author = {Subhransu S. Bhattacharjee},
-  title = {Mangrove: Dynamic Data Management Engine for Advanced AI Applications},
+  title = {Mangrove: A Dynamic Data Management Engine for Advanced AI Applications},
   year = {2023},
   note = {GitHub repository},
   howpublished = {\url{https://github.com/1ssb/mangroves}}
