@@ -60,7 +60,7 @@ pip install mangroves
 
 ## Usage
 
-You can now import Mangroves from [https://pypi.org/project/mangroves/](PyPI) library in your Python code and use them directly for instantiation. A set of use cases is provided below:
+You can now import Mangroves from the [PyPI](https://pypi.org/project/mangroves/) library in your Python code and use them directly for instantiation. A set of use cases is provided below:
 
 ```python
 import torch
