@@ -9,7 +9,7 @@ Mangrove is a utility data structure designed to manage various types of data wi
 - **Dynamic Configuration**: Use the `config()` function to easily specify data type constraints for various depths. The system prevents incompatible configurations.
 - **Data Ingestion**: With `add_data()`, you can add new variables dynamically while ensuring they meet the established type and depth requirements.
 - **Insightful Summaries**: The `summary()` method provides a quick, detailed overview of your data's types, depths, and more.
-- **Dynamic Access**: Use Pythonic `__getattr__` and `__setattr__` methods for on-the-fly variable access, with robust error handling.
+- **Dynamic Access**: Use Pythonic `__getattr__` and `__setattr__` methods for on-the-fly variable access, with robust error handling. 
 
 ## Special Functionalities
 - **Seamless GPU Acceleration**: The `tocuda` method effortlessly transfers your data to a CUDA-enabled GPU.
@@ -23,6 +23,7 @@ Mangrove is a utility data structure designed to manage various types of data wi
 - `__getattr__ & __setattr__`: Dynamic variable access with robust error handling.
 - `tocuda()`: Streamline the transfer of variables to CUDA-enabled GPUs.
 - `push()`: Modify the depth of a variable dynamically.
+- `shift()` Move any variable to a destination depth.
 
 ## Requirements
 
