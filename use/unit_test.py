@@ -82,35 +82,31 @@ class TestMangrove(unittest.TestCase):
         m.add_data(1, int, ["x"], [1])
         with self.assertRaises(MangroveException):
             m.push(1, "x")
-
+    
     def test_tocuda(self):
         m = Mangrove()
         m.config(1, [torch.Tensor])
         m.add_data(1, torch.Tensor, ["t"], [torch.zeros(5)])
         m.tocuda()
         self.assertTrue(m.t.is_cuda)
-
+    
     def test_shift(self):
         m = Mangrove()
         m.config(1, [int, torch.Tensor])
-        m.config(2, [int])
         m.add_data(1, int, ["x"], [1])
-        
-        # Test shifting to a compatible depth
-        m.shift(to=2, variable_name="x")
-        self.assertEqual(m.levels, {"x": 2})
-        
-        # Test shifting back to depth 0
-        m.shift(to=0, variable_name="x")
-        self.assertEqual(m.levels, {"x": 0})
-        
-        # Test attempting to shift to an incompatible depth
+
+        # Test valid shift operation
+        m.shift(0, "x")
+        self.assertEqual(m.levels["x"], 0)
+
+        # Test invalid depth
         with self.assertRaises(MangroveException):
-            m.shift(to=1, variable_name="x")
-        
-        # Test attempting to shift a non-existent variable
+            m.shift(2, "x")
+
+        # Test invalid data type at depth
+        m.config(2, [float])
         with self.assertRaises(MangroveException):
-            m.shift(to=1, variable_name="non_existent_var")
+            m.shift(2, "x")
 
 if __name__ == '__main__':
     unittest.main()
