@@ -59,7 +59,7 @@ pip install mangroves
 
 ## Usage
 
-You can now import the Mangroves library in your Python code and use them directly for instantiation. A set of uses cases are provided as follows:
+You can now import the Mangroves library in your Python code and use them directly for instantiation. A set of use cases is provided below:
 
 ```python
 import torch
@@ -147,13 +147,32 @@ if __name__ == "__main__":
 
 ```
 
-#### Pitfall (Warning): It is highly recommended to use Mangrove with the exception handler.
-
 ## License
 
 The package is licensed under the MIT License.
 
 #### Acknowledgment: Thanks to Mr. Abhaas Goyal ([@abhaasgoyal](https://github.com/abhaasgoyal)) for productive conversations. 
+
+## Contributions
+
+We welcome contributions to Mangrove! If you're looking to contribute, you can do so in the following ways:
+
+### Bug Reports and Feature Requests
+If you find a bug or have an idea for a new feature, please start by opening an issue in the GitHub repository. This allows us to collaborate and ensure that the issue is reproducible and distinct.
+
+### Code Contributions
+1. Fork the repository to your own GitHub account.
+2. Clone the repository to your local machine.
+3. Create a new branch for your changes.
+4. Make your changes and commit them with a clear and descriptive message.
+5. Push the changes back to your fork on GitHub.
+6. Create a Pull Request from your fork to the original repository.
+
+Before submitting a Pull Request, please ensure that your code adheres to the style guidelines of the project and that any tests are passing. Your contributions, whether they're small documentation updates or new features, are highly appreciated! Kindly update `unit_tests.py` with your own cases and make sure it maintains backward compatibility.
+
+### Contact
+
+If you have specific questions about contributing or you've identified a sensitive or urgent issue, you can reach out via email at [Subhransu.Bhattacharjee@anu.edu.au](mailto:Subhransu.Bhattacharjee@anu.edu.au).
 
 ## Citation
 
