@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='mangroves',
-    version='1.0.1',
+    version='1.1',
     packages=['mangroves'],
     install_requires=[
         'torch>=1.8.1',
