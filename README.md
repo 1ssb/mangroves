@@ -5,6 +5,25 @@ Unlock a new paradigm of data management with Mangrove—a high-density, multi-d
 ## Description
 Mangrove is a utility data structure designed to manage various types of data within multi-layered superstructures, denoted by 'depths.' It offers high-fidelity operations, including the ability to transfer values to the GPU for accelerated computing. As the program runs, Mangrove naturally organizes data in a structured manner based on its importance and requirements. It can move priority tensors to the GPU for computation and later retrieve them, adding them back as attributes within the same instance. This provides an end-to-end management utility well-suited for large-scale, episodic training processes and data acquisition systems, making it highly versatile and applicable to a range of use cases.
 
+## Key Features
+- **Dynamic Configuration**: Use the `config()` function to easily specify data type constraints for various depths. The system prevents incompatible configurations.
+- **Data Ingestion**: With `add_data()`, you can add new variables dynamically while ensuring they meet the established type and depth requirements.
+- **Insightful Summaries**: The `summary()` method provides a quick, detailed overview of your data's types, depths, and more.
+- **Dynamic Access**: Use Pythonic `__getattr__` and `__setattr__` methods for on-the-fly variable access, with robust error handling.
+
+## Special Functionalities
+- **Seamless GPU Acceleration**: The `tocuda` method effortlessly transfers your data to a CUDA-enabled GPU.
+- **Dynamic Depth Management**: The `push` functionality enables you to adjust variable depths on-the-fly, optimizing your data organization.
+- **Depth 0**: A special layer for untyped data, providing a flexible foundation for early-stage projects.
+
+## Methods
+- `config()`: Define type constraints for variable depths.
+- `add_data()`: Add variables dynamically, with automatic type and depth checks.
+- `summary()`: Get an insightful snapshot of the state of your data.
+- `__getattr__ & __setattr__`: Dynamic variable access with robust error handling.
+- `tocuda()`: Streamline the transfer of variables to CUDA-enabled GPUs.
+- `push()`: Modify the depth of a variable dynamically.
+
 ## Requirements
 
 - CUDA-enabled GPU
