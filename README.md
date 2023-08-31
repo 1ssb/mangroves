@@ -179,7 +179,7 @@ If you have specific questions about contributing or you've identified a sensiti
 
 If you find this code useful in your research, please cite as:
 
-```latex
+```bibtex
 @misc{Mangrove2023,
   author = {Subhransu S. Bhattacharjee},
   title = {Mangrove: A Dynamic Data Management Engine for Advanced AI Applications},
