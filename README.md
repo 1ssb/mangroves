@@ -6,29 +6,32 @@ Unlock streamlined data management with Mangrove, a multi-dimensional structure 
 Mangrove is a utility data structure designed to manage various types of data within multi-layered superstructures, denoted by 'depths.' It offers high-fidelity operations, including the ability to transfer values to the GPU for accelerated computing. As the program runs, Mangrove naturally organizes data in a structured manner based on its importance and requirements. It can move priority tensors to the GPU for computation and later retrieve them, adding them back as attributes within the same instance. This provides an end-to-end management utility well-suited for large-scale, episodic training processes and data acquisition systems, making it highly versatile and applicable to a range of use cases.
 
 ## Key Features
-- **Dynamic Configuration**: Use the `config()` function to easily specify data type constraints for various depths. The system prevents incompatible configurations.
-- **Data Ingestion**: With `add_data()`, you can add new variables dynamically while ensuring they meet the established type and depth requirements.
-- **Insightful Summaries**: The `summary()` method provides a quick, detailed overview of your data's types, depths, and more.
-- **Dynamic Access**: Use Pythonic `__getattr__` and `__setattr__` methods for on-the-fly variable access, with robust error handling.
-- **Result Caching**: We use caching to store local information to prevent too many Dictionary lookups.
+- **Dynamic Configuration**: Use `config()` for data type constraints per depth.
+- **Data Ingestion**: `add_data()` adds variables dynamically with type checks.
+- **Insightful Summaries**: `summary()` for quick data overviews.
+- **Dynamic Access**: Use `__getattr__` and `__setattr__` for variable access.
+- **Result Caching**: Local caching minimizes Dictionary lookups.
+- **Deleting Restrictions**: `deleter()` allows you to safely delete the instance and free up memory.
 
 ## Special Functionalities
-- **Seamless GPU Acceleration**: The `tocuda()` method effortlessly transfers your data to a CUDA-enabled GPU.
-- **Dynamic Depth Management**: The `push()` functionality enables you to adjust variable depths on-the-fly, optimizing your data organization.
-- **Depth 0**: A special layer for untyped data, providing a flexible foundation for early-stage projects.
-- **Inosculation**: This function allows for direct value manipulation across depths, enabling more intricate data-flow patterns. The term "inosculation" is used to signify the merging or interlocking of elements, akin to the way natural systems like trees or capillaries inosculate.
-- **Uprooting**: The uproot method allows you to move a variable from its current depth to the root (depth 0), facilitating easier access for testing.
+- **Seamless GPU Acceleration**: `tocuda()` for easy data transfer to CUDA GPUs.
+- **Dynamic Depth Management**: `push()` adjusts variable depths dynamically.
+- **Depth 0**: Untyped data layer for flexibility.
+- **Inosculation**: `inosc()` allows direct value manipulation across depths.
+- **Uprooting**: `uproot()` moves variables to depth 0.
+- **Deleter**: `deleter()` deletes the instance and its data.
 
 ## Methods
-- `config()`: Define type constraints for variable depths.
-- `add_data()`: Add variables dynamically, with automatic type and depth checks.
-- `summary()`: Get an insightful snapshot of the state of your data.
-- `__getattr__` and `__setattr__`: Dynamic variable access with robust error handling.
-- `tocuda()`: Streamline the transfer of variables to CUDA-enabled GPUs.
-- `push()`: Modify the depth of a variable dynamically.
-- `inosc()`: Directly manipulate values across depths.
-- `uproot()`: Move variables to root depth.
-- `shift()`: Move any variable to a destination depth.
+- `config()`: Define type constraints.
+- `add_data()`: Add variables with checks.
+- `summary()`: Overview of data state.
+- `__getattr__` and `__setattr__`: Variable access.
+- `tocuda()`: Transfer data to CUDA GPUs.
+- `push()`: Modify variable depth.
+- `inosc()`: Manipulate values across depths.
+- `uproot()`: Move variables to root.
+- `shift()`: Shift variables between depths.
+- `deleter()`: Delete the instance and its data.
 
 ## Requirements
 - CUDA-enabled GPU
@@ -42,6 +45,10 @@ Mangrove is a utility data structure designed to manage various types of data wi
 pip install mangroves
 ```
 
+## Usage
+
+You can now import Mangroves from the [PyPI](https://pypi.org/project/mangroves/) library in your Python code and use them directly for instantiation. A set of use cases is provided in ```./use/main.py```.
+
 In python environemnt utilise the class as:
 
 ```python
@@ -50,11 +57,7 @@ from mangroves.mangrove import Mangrove as M
 # Instantiate Mangrove class
 M = M()
 ```
-Its that simple. Make sure to always use the PyPI instead of the repo in case the released updates have not be tested.
-
-## Usage
-
-You can now import Mangroves from the [PyPI](https://pypi.org/project/mangroves/) library in your Python code and use them directly for instantiation. A set of use cases is provided in ```use/main.py```.
+Its that simple. Make sure to always use the PyPI instead of cloning the repo, in case the unreleased commits have not been tested.
 
 ## License
 
@@ -85,7 +88,7 @@ If you have specific questions about contributing or you've identified a sensiti
 
 ## Citation
 
-If you find this code useful in your research, please cite as:
+If you find this code useful in your research, please leave a star and cite as:
 
 ```bibtex
 @misc{Mangrove2023,
