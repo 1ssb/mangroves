@@ -17,7 +17,7 @@ Mangrove is a utility data structure designed to manage various types of data wi
 - **Seamless GPU Acceleration**: `tocuda()` for easy data transfer to CUDA GPUs.
 - **Dynamic Depth Management**: `push()` adjusts variable depths dynamically.
 - **Depth 0**: Untyped data layer for flexibility.
-- **Inosculation**: `inosc()` allows direct value manipulation across depths.
+- **Inosculation**: `inosc()` allows direct value accessing and joining across depths. Inspired from the structure in trees.
 - **Uprooting**: `uproot()` moves variables to depth 0.
 - **Deleter**: `deleter()` deletes the instance and its data.
 
