@@ -21,18 +21,6 @@ Mangrove is a utility data structure designed to manage various types of data wi
 - **Uprooting**: `uproot()` moves variables to depth 0.
 - **Deleter**: `deleter()` deletes the instance and its data.
 
-## Methods
-- `config()`: Define type constraints.
-- `add_data()`: Add variables with checks.
-- `summary()`: Overview of data state.
-- `__getattr__` and `__setattr__`: Variable access.
-- `tocuda()`: Transfer data to CUDA GPUs.
-- `push()`: Modify variable depth.
-- `inosc()`: Manipulate values across depths.
-- `uproot()`: Move variables to root.
-- `shift()`: Shift variables between depths.
-- `deleter()`: Delete the instance and its data.
-
 ## Requirements
 - CUDA-enabled GPU
 - Python 3.x
