@@ -35,28 +35,19 @@ Mangrove is a utility data structure designed to manage various types of data wi
   
 ## Installation
 
-### Option 1: Use the PyPI library
-
 ```bash
 pip install mangroves
 ```
 
-### Option 2: Clone the GitHub Repository
+In python environemnt utilise the class as:
 
-1. Open your terminal and run the following command to clone the repository:
-    ```bash
-    git clone https://github.com/1ssb/mangroves.git
-    ```
-   
-2. Navigate to the cloned repository:
-    ```bash
-    cd mangroves
-    ```
-
-3. Install the package:
-    ```bash
-    pip install .
-    ```
+```python
+# Import the Mangrove library
+from mangroves.mangrove import Mangrove as M
+# Instantiate Mangrove class
+M = M()
+```
+Its that simple. Make sure to always use the PyPI instead of the repo in case the released updates have not be tested.
 
 ## Usage
 
