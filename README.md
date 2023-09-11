@@ -1,6 +1,6 @@
 # Mangrove: A Dynamic Data Management System for Advanced AI Applications
 
-Unlock a new framework of data management with Mangrove—a high-density, multi-dimensional data structure engineered to streamline variable handling across various depths and types. Mangrove simplifies data management in Robotics, NLP, computer vision and other AI applications by providing a versatile and efficient way to handle variables of varying types and depths. By using Mangrove, you can focus more on your AI model development and less on data organization.
+Unlock streamlined data management with Mangrove, a multi-dimensional structure that simplifies variable handling across Robotics, NLP, and computer vision. Focus more on model development and less on data organization.
 
 ## Description
 Mangrove is a utility data structure designed to manage various types of data within multi-layered superstructures, denoted by 'depths.' It offers high-fidelity operations, including the ability to transfer values to the GPU for accelerated computing. As the program runs, Mangrove naturally organizes data in a structured manner based on its importance and requirements. It can move priority tensors to the GPU for computation and later retrieve them, adding them back as attributes within the same instance. This provides an end-to-end management utility well-suited for large-scale, episodic training processes and data acquisition systems, making it highly versatile and applicable to a range of use cases.
@@ -13,9 +13,11 @@ Mangrove is a utility data structure designed to manage various types of data wi
 - **Result Caching**: We use caching to store local information to prevent too many Dictionary lookups.
 
 ## Special Functionalities
-- **Seamless GPU Acceleration**: The `tocuda` method effortlessly transfers your data to a CUDA-enabled GPU.
-- **Dynamic Depth Management**: The `push` functionality enables you to adjust variable depths on-the-fly, optimizing your data organization.
+- **Seamless GPU Acceleration**: The `tocuda()` method effortlessly transfers your data to a CUDA-enabled GPU.
+- **Dynamic Depth Management**: The `push()` functionality enables you to adjust variable depths on-the-fly, optimizing your data organization.
 - **Depth 0**: A special layer for untyped data, providing a flexible foundation for early-stage projects.
+- **Inosculation**: This function allows for direct value manipulation across depths, enabling more intricate data-flow patterns. The term "inosculation" is used to signify the merging or interlocking of elements, akin to the way natural systems like trees or capillaries inosculate.
+- **Uprooting**: The uproot method allows you to move a variable from its current depth to the root (depth 0), facilitating easier access for testing.
 
 ## Methods
 - `config()`: Define type constraints for variable depths.
@@ -24,10 +26,11 @@ Mangrove is a utility data structure designed to manage various types of data wi
 - `__getattr__` and `__setattr__`: Dynamic variable access with robust error handling.
 - `tocuda()`: Streamline the transfer of variables to CUDA-enabled GPUs.
 - `push()`: Modify the depth of a variable dynamically.
+- `inosc()`: Directly manipulate values across depths.
+- `uproot()`: Move variables to root depth.
 - `shift()`: Move any variable to a destination depth.
 
 ## Requirements
-
 - CUDA-enabled GPU
 - Python 3.x
 - Torch >=1.8
