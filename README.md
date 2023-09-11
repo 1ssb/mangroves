@@ -4,6 +4,8 @@ Unlock streamlined data management with Mangrove, a multi-dimensional structure 
 
 ![A Mangrove tree](./mangrove.png)
 
+*A DALLE rendition of Mangrove tree.*
+
 ## Description
 Mangrove is a utility data structure designed to manage various types of data within multi-layered superstructures, denoted by 'depths.' It offers high-fidelity operations, including the ability to transfer values to the GPU for accelerated computing. As the program runs, Mangrove naturally organizes data in a structured manner based on its importance and requirements. It can move priority tensors to the GPU for computation and later retrieve them, adding them back as attributes within the same instance. This provides an end-to-end management utility well-suited for large-scale, episodic training processes and data acquisition systems, making it highly versatile and applicable to a range of use cases.
 
