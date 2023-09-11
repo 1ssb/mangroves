@@ -1,15 +1,32 @@
+import weakref
 import torch
 from typing import List, Union, Type, Any, Dict, Optional, Tuple
 
 class Mangrove:
     __slots__ = ["depths", "data", "types", "levels", "inosculations"]
+    _instances = weakref.WeakValueDictionary()  # WeakValueDictionary to keep track of instances
 
     def __init__(self) -> None:
+        instance_id = id(self)
+        if instance_id in Mangrove._instances:
+            raise Exception("MangroveException: Cannot reuse variable name for this instance unless deleted.")
+        
+        Mangrove._instances[instance_id] = self  # Register the new instance
+        
         self.depths = {0: [int, float, str, torch.Tensor]}
         self.data = {}
         self.types = {}
         self.levels = {}
         self.inosculations = {}
+
+    def deleter(self) -> None:
+        """Remove the instance from the WeakValueDictionary."""
+        instance_id = id(self)
+        if instance_id in Mangrove._instances:
+            del Mangrove._instances[instance_id]
+        else:
+            existing_instances = list(Mangrove._instances.keys())
+            self._raise_exception(f"Instance ID {instance_id} does not exist. Existing instances: {existing_instances}")
 
     def _raise_exception(self, message: str) -> None:
         """Raise an exception with a custom message."""
