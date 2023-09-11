@@ -1,17 +1,20 @@
 # A Use case on how to use Mangroves
 
 import torch
-from mangroves.mangrove import Mangrove, MangroveException
+from mangroves.mangrove import Mangrove
 
 def main():
     try:
+        # 1. Initializing the Mangrove object
         print("Initializing Mangrove object...")
         mangrove = Mangrove()
-
+        
+        # 2. Configuring depths
         print("Configuring depth 1...")
         mangrove.config(1, [int, float, torch.Tensor])
         print("Depth 1 configured.")
-
+        
+        # 3. Adding data to depths
         print("Adding data to depth 1...")
         mangrove.add_data(1, int, ["age"], [25])
         mangrove.add_data(1, float, ["height"], [5.9])
@@ -21,65 +24,46 @@ def main():
         mangrove.add_data(0, torch.Tensor, ["tensor_data"], [torch.tensor([1, 2, 3])])
         print("Tensor data added to depth 0.")
 
-        print("Directly accessing variable 'age'...")
-        print("Accessing directly:", mangrove.age)
+        # 4. Creating inosculation
+        print("Creating inosculation between int variables at depth 1 and tensor variables at depth 0...")
+        inosc_key = mangrove.inosc([(1, int), (0, torch.Tensor)])
+        print(f"Inosculation created with key: {inosc_key}")
 
-        print("Updating the 'age' variable...")
-        mangrove.age = 26
-        print("Age updated.")
+        # 5. Uprooting cojoined data
+        print("Uprooting cojoined data based on inosculation...")
+        cojoined_data = mangrove.uproot(inosc_key)
+        print(f"Cojoined data: {cojoined_data}")
 
-        print("Accessing summary...")
-        summary = mangrove.summary()
-        print("Summary:", summary)
+        # 6. Fetching variable names and their values
+        print("Fetching variable names for depth 1...")
+        var_names_depth1 = mangrove.var(1)
+        print(f"Variable names at depth 1: {var_names_depth1}")
 
-        print("Getting variables at depth 1...")
-        print("Variables at depth 1:", mangrove.var(depth=1))
+        print("Fetching index of variables...")
+        index_data = mangrove.index()
+        print(f"Index data: {index_data}")
 
-        print("Getting variables of type int...")
-        print("Variables of type int:", mangrove.var(data_type=int))
-
-        print("Indexing at depth 1...")
-        print("Indexing at depth 1:", mangrove.index(depth=1))
-
-        print("Pushing 'tensor_data' to depth 1...")
+        # 7. Pushing a variable from depth 0 to depth 1
+        print("Pushing 'tensor_data' from depth 0 to depth 1...")
         mangrove.push(1, "tensor_data")
-        print("'tensor_data' pushed to depth 1.")
-
-        print("Moving all tensor variables to CUDA...")
-        mangrove.tocuda(data_type=torch.Tensor)
-        print("All tensor variables moved to CUDA.")
-
-        # Retrieving tensor_data from CUDA and adding it to depth 1
-        print("Retrieving 'tensor_data' back from CUDA...")
-        tensor_data_cpu = mangrove.tensor_data.cpu()
-        print("Retrieved 'tensor_data' back from CUDA.")
-
-        print("Adding retrieved 'tensor_data' to depth 1...")
-        mangrove.add_data(1, torch.Tensor, ["retrieved_tensor_data"], [tensor_data_cpu])
-        print("Retrieved 'tensor_data' added to depth 1.")
-
-        print("Adding tensor data to depth 0 (pre-configured)...")
-        mangrove.add_data(0, torch.Tensor, ["tensor_data"], [torch.tensor([1, 2, 3])])
-        print("Tensor data added to depth 0.")
         
-        # Test shift operation
-        print("Shifting 'tensor_data' from depth 0 to depth 1...")
-        mangrove.shift(to=1, variable_name="tensor_data")
-        print("'tensor_data' shifted to depth 1.")
+        # 8. Shifting a variable from one depth to another
+        print("Shifting 'age' from depth 1 to depth 0...")
+        mangrove.shift(0, 'age')
 
-        print("Attempting to shift 'age' to depth that doesn't support its type...")
-        try:
-            mangrove.shift(to=2, variable_name="age")
-        except MangroveException as e:
-            print("Expected error occurred:", e)
+        # 9. Using `tocuda` to move tensors to GPU, if available
+        print("Attempting to move tensors to GPU...")
+        mangrove.tocuda()
         
-        print("Shifting 'age' back to depth 0...")
-        mangrove.shift(to=0, variable_name="age")
-        print("'age' shifted to depth 0.")
+        # 10. Displaying a summary
+        print("Displaying Mangrove summary...")
+        summary = mangrove.summary()
+        print(f"Summary: {summary}")
 
-    except MangroveException as e:
+    except Exception as e:
         print("An error occurred:", e)
 
 if __name__ == "__main__":
     main()
+
 
