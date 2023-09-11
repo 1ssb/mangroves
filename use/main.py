@@ -60,6 +60,11 @@ def main():
         summary = mangrove.summary()
         print(f"Summary: {summary}")
 
+        # 11. Deleting the Mangrove object
+        print("Deleting Mangrove object...")
+        mangrove.deleter()
+        print("Mangrove object deleted.")
+
     except Exception as e:
         print("An error occurred:", e)
 
