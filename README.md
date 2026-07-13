@@ -1,13 +1,11 @@
-# Mangrove: A Dynamic Data Management System for Advanced AI Applications
+# Mangroves
 
-Unlock streamlined data management with Mangrove, a multi-dimensional structure that simplifies variable handling across Robotics, NLP, computer vision and graphics. Focus more on model development and less on data organization.
+A small Python package for **depth-based hierarchical data management** in PyTorch pipelines. Mangroves organises heterogeneous variables into typed layers it calls *depths*, with type-checked ingestion, dynamic attribute access, result caching, and explicit CPU–GPU tensor movement — useful for episodic training and data-acquisition loops where many named tensors move between host and device.
 
-![A Mangrove tree](./mangrove.png)
-
-*A DALLE rendition of Mangrove tree.*
+> Status: stable earlier package, maintained on a maintenance-only basis.
 
 ## Description
-Mangrove is a utility data structure designed to manage various types of data within multi-layered superstructures, denoted by 'depths.' It offers high-fidelity operations, including the ability to transfer values to the GPU for accelerated computing. As the program runs, Mangrove naturally organizes data in a structured manner based on its importance and requirements. It can move priority tensors to the GPU for computation and later retrieve them, adding them back as attributes within the same instance. This provides an end-to-end management utility well-suited for large-scale, episodic training processes and data acquisition systems, making it highly versatile and applicable to a range of use cases.
+A *depth* is a typed layer of the structure: `config()` sets the type constraints for a depth, `add_data()` adds type-checked variables to it, and depth 0 is an untyped layer for flexibility. Priority tensors can be moved to the GPU with `tocuda()` and read back as attributes on the same instance, keeping data organisation separate from model code.
 
 ## Key Features
 - **Dynamic Configuration**: Use `config()` for data type constraints per depth.
@@ -85,7 +83,7 @@ If you find this code useful in your research, please leave a star and cite as:
 ```bibtex
 @misc{Mangrove2023,
   author = {Subhransu S. Bhattacharjee},
-  title = {Mangrove: A Dynamic Data Management Engine for Advanced AI Applications},
+  title = {Mangroves: Depth-based Hierarchical Data Management for PyTorch},
   year = {2023},
   note = {GitHub repository},
   howpublished = {\url{https://github.com/1ssb/mangroves}}
