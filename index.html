@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Mangroves is a compact Python package for depth-based hierarchical data management in PyTorch pipelines, with typed ingestion, dynamic attribute access, result caching, and explicit CPU–GPU tensor movement.">
+  <meta name="theme-color" content="#07130f">
+  <title>Mangroves — Hierarchical Data Management for PyTorch</title>
+  <link rel="canonical" href="https://1ssb.github.io/mangroves/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mangroves — Hierarchical Data Management for PyTorch">
+  <meta property="og:description"
+    content="Typed depths, dynamic attributes, and explicit device movement for structured PyTorch data flows.">
+  <meta property="og:url" content="https://1ssb.github.io/mangroves/">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07130f;
+      --bg-deep: #040b09;
+      --panel: #0b1d17;
+      --panel-2: #10271f;
+      --line: #1d3b30;
+      --line-bright: #2c5d4b;
+      --text: #ecf7f1;
+      --muted: #9bb7aa;
+      --leaf: #63e6a8;
+      --leaf-dark: #21ad72;
+      --water: #59c3d1;
+      --sand: #f0c674;
+      --danger: #ff9678;
+      --radius: 18px;
+      --shadow: 0 22px 70px rgba(0, 0, 0, 0.34);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 88px;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(900px 620px at 82% -5%, rgba(89, 195, 209, 0.13), transparent 62%),
+        radial-gradient(800px 600px at -10% 18%, rgba(99, 230, 168, 0.11), transparent 58%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 78%);
+      color: var(--text);
+      font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.24;
+      background-image:
+        linear-gradient(rgba(99, 230, 168, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 230, 168, 0.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+
+    a {
+      color: var(--leaf);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #a0ffd2;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    code,
+    pre,
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav-shell {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(44, 93, 75, 0.55);
+      background: rgba(7, 19, 15, 0.82);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+
+    nav {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand:hover {
+      color: var(--text);
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-bright);
+      border-radius: 11px;
+      background: linear-gradient(145deg, rgba(99, 230, 168, 0.18), rgba(89, 195, 209, 0.08));
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .brand-mark svg {
+      width: 23px;
+      height: 23px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-github {
+      padding: 8px 13px;
+      border: 1px solid var(--line-bright);
+      border-radius: 10px;
+      background: rgba(16, 39, 31, 0.8);
+    }
+
+    .hero {
+      padding: 96px 0 76px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+      align-items: center;
+      gap: 70px;
+    }
+
+    .hero-grid > * {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--leaf);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 25px;
+      height: 1px;
+      background: var(--leaf);
+    }
+
+    h1 {
+      max-width: 720px;
+      margin-top: 19px;
+      font-size: clamp(3.2rem, 7vw, 5.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+    }
+
+    h1 .gradient {
+      color: transparent;
+      background: linear-gradient(120deg, var(--leaf) 8%, var(--water) 65%, var(--sand));
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero-lede {
+      max-width: 650px;
+      margin-top: 25px;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 2vw, 1.16rem);
+    }
+
+    .hero-lede strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 31px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 48px;
+      padding: 0 19px;
+      border: 1px solid var(--line-bright);
+      border-radius: 12px;
+      color: var(--text);
+      background: rgba(16, 39, 31, 0.8);
+      font-size: 0.93rem;
+      font-weight: 700;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .btn:hover {
+      color: var(--text);
+      text-decoration: none;
+      transform: translateY(-2px);
+      border-color: var(--leaf);
+      background: var(--panel-2);
+    }
+
+    .btn.primary {
+      color: #03110b;
+      border-color: transparent;
+      background: linear-gradient(125deg, var(--leaf), #78ead3);
+      box-shadow: 0 10px 30px rgba(33, 173, 114, 0.22);
+    }
+
+    .btn.primary:hover {
+      color: #03110b;
+      box-shadow: 0 13px 34px rgba(33, 173, 114, 0.3);
+    }
+
+    .btn svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 26px;
+    }
+
+    .badges img {
+      height: 20px;
+    }
+
+    .depth-visual {
+      position: relative;
+      padding: 27px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background:
+        linear-gradient(145deg, rgba(16, 39, 31, 0.95), rgba(7, 19, 15, 0.9)),
+        var(--panel);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .depth-visual::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(145deg, rgba(99, 230, 168, 0.3), transparent 38%, rgba(89, 195, 209, 0.18));
+      opacity: 0.7;
+    }
+
+    .visual-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+    }
+
+    .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .live-dot::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--leaf);
+      box-shadow: 0 0 0 5px rgba(99, 230, 168, 0.09);
+    }
+
+    .depth-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .depth {
+      position: relative;
+      display: grid;
+      grid-template-columns: 74px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      min-height: 72px;
+      padding: 12px 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(4, 11, 9, 0.62);
+      overflow: hidden;
+    }
+
+    .depth::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--depth-color, var(--leaf));
+    }
+
+    .depth-id {
+      color: var(--depth-color, var(--leaf));
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.73rem;
+      font-weight: 600;
+    }
+
+    .depth-data strong {
+      display: block;
+      font-size: 0.91rem;
+    }
+
+    .depth-data span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.67rem;
+    }
+
+    .depth-chip {
+      padding: 5px 8px;
+      border: 1px solid color-mix(in srgb, var(--depth-color, var(--leaf)) 35%, transparent);
+      border-radius: 7px;
+      color: var(--depth-color, var(--leaf));
+      background: color-mix(in srgb, var(--depth-color, var(--leaf)) 8%, transparent);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.64rem;
+    }
+
+    .root-system {
+      position: relative;
+      height: 64px;
+      margin: 4px 22px 0;
+      opacity: 0.7;
+    }
+
+    .root-system span {
+      position: absolute;
+      top: 2px;
+      width: 1px;
+      height: 48px;
+      transform-origin: top;
+      background: linear-gradient(var(--leaf-dark), transparent);
+    }
+
+    .root-system span:nth-child(1) {
+      left: 18%;
+      transform: rotate(24deg);
+    }
+
+    .root-system span:nth-child(2) {
+      left: 36%;
+      transform: rotate(-18deg);
+    }
+
+    .root-system span:nth-child(3) {
+      left: 50%;
+      height: 58px;
+      transform: rotate(7deg);
+    }
+
+    .root-system span:nth-child(4) {
+      left: 67%;
+      transform: rotate(25deg);
+    }
+
+    .root-system span:nth-child(5) {
+      left: 82%;
+      transform: rotate(-24deg);
+    }
+
+    section {
+      padding: 84px 0;
+      border-top: 1px solid rgba(29, 59, 48, 0.72);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.7fr 1fr;
+      gap: 50px;
+      align-items: end;
+      margin-bottom: 36px;
+    }
+
+    .kicker {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--leaf);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.73rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.045em;
+    }
+
+    .section-copy {
+      max-width: 660px;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feature-card,
+    .api-card,
+    .status-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(16, 39, 31, 0.84), rgba(11, 29, 23, 0.72));
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
+    }
+
+    .feature-card {
+      min-height: 245px;
+      padding: 25px;
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 26px;
+      border: 1px solid var(--line-bright);
+      border-radius: 13px;
+      color: var(--leaf);
+      background: rgba(99, 230, 168, 0.07);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .feature-card:nth-child(2) .feature-icon {
+      color: var(--water);
+      background: rgba(89, 195, 209, 0.07);
+    }
+
+    .feature-card:nth-child(3) .feature-icon {
+      color: var(--sand);
+      background: rgba(240, 198, 116, 0.07);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-card p,
+    .api-card p,
+    .status-card p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(11, 29, 23, 0.66);
+      overflow: hidden;
+    }
+
+    .workflow-step {
+      position: relative;
+      min-height: 190px;
+      padding: 24px 21px;
+      border-right: 1px solid var(--line);
+    }
+
+    .workflow-step:last-child {
+      border-right: 0;
+    }
+
+    .workflow-step .number {
+      color: var(--leaf);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+    }
+
+    .workflow-step h3 {
+      margin-top: 31px;
+    }
+
+    .workflow-step p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .workflow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 22px;
+      right: -9px;
+      z-index: 2;
+      width: 18px;
+      display: grid;
+      place-items: center;
+      color: var(--line-bright);
+      background: var(--panel);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.78rem;
+    }
+
+    .code-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .code-window {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #050d0a;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .code-bar {
+      min-height: 47px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px 0 17px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .window-dots i {
+      width: 8px;
+      height: 8px;
+      display: block;
+      border-radius: 50%;
+      background: var(--line-bright);
+    }
+
+    .window-dots i:first-child {
+      background: var(--danger);
+    }
+
+    .window-dots i:nth-child(2) {
+      background: var(--sand);
+    }
+
+    .window-dots i:last-child {
+      background: var(--leaf);
+    }
+
+    .file-name {
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+    }
+
+    .copy-btn {
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      color: var(--muted);
+      background: transparent;
+      font: 600 0.67rem "DM Sans", sans-serif;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover {
+      color: var(--text);
+      border-color: var(--line-bright);
+    }
+
+    pre {
+      padding: 24px;
+      overflow-x: auto;
+      color: #d6e7de;
+      font-size: 0.82rem;
+      line-height: 1.75;
+      tab-size: 2;
+    }
+
+    .tok-key {
+      color: #7dcfff;
+    }
+
+    .tok-name {
+      color: #a7e6bd;
+    }
+
+    .tok-str {
+      color: #f0c674;
+    }
+
+    .tok-comment {
+      color: #688277;
+    }
+
+    .principles {
+      display: grid;
+      gap: 12px;
+    }
+
+    .principle {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 14px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(11, 29, 23, 0.66);
+    }
+
+    .principle .mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: var(--leaf);
+      background: rgba(99, 230, 168, 0.08);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.71rem;
+    }
+
+    .principle p {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .api-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 13px;
+    }
+
+    .api-card {
+      padding: 20px;
+    }
+
+    .api-card code {
+      color: var(--leaf);
+      font-size: 0.83rem;
+      font-weight: 600;
+    }
+
+    .api-card p {
+      font-size: 0.82rem;
+    }
+
+    .install-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 20px;
+    }
+
+    .install-command {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      min-height: 77px;
+      padding: 0 20px;
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius);
+      background: #050d0a;
+      box-shadow: var(--shadow);
+    }
+
+    .install-command code {
+      color: var(--text);
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+    }
+
+    .requirements {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .requirement {
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--muted);
+      background: rgba(11, 29, 23, 0.68);
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    .status-card {
+      padding: 25px;
+    }
+
+    .status-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--sand);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .status-line::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--sand);
+      box-shadow: 0 0 0 5px rgba(240, 198, 116, 0.08);
+    }
+
+    .status-card h3 {
+      margin-top: 16px;
+      font-size: 1.35rem;
+    }
+
+    .cite-box {
+      position: relative;
+      margin-top: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #050d0a;
+      overflow: hidden;
+    }
+
+    .cite-box .copy-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+    }
+
+    footer {
+      padding: 42px 0 55px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+    }
+
+    .footer-links a:hover {
+      color: var(--leaf);
+    }
+
+    @media (max-width: 920px) {
+      .hero {
+        padding-top: 72px;
+      }
+
+      .hero-grid,
+      .section-head,
+      .code-layout,
+      .install-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-grid {
+        gap: 52px;
+      }
+
+      .depth-visual {
+        width: 100%;
+        max-width: 600px;
+      }
+
+      .section-head {
+        gap: 16px;
+        align-items: start;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card {
+        min-height: 0;
+      }
+
+      .workflow {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-step {
+        min-height: 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .workflow-step:last-child {
+        border-bottom: 0;
+      }
+
+      .workflow-step:not(:last-child)::after {
+        content: "↓";
+        top: auto;
+        right: 20px;
+        bottom: -9px;
+      }
+
+      .workflow-step h3 {
+        margin-top: 13px;
+      }
+
+      .api-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .wrap {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .nav-links a:not(.nav-github) {
+        display: none;
+      }
+
+      .hero {
+        padding: 58px 0 58px;
+      }
+
+      .hero-grid {
+        display: block;
+      }
+
+      .hero-grid > div {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 14vw, 4.4rem);
+        overflow-wrap: anywhere;
+      }
+
+      .hero-lede,
+      .badges {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .depth-visual {
+        margin-top: 50px;
+      }
+
+      section {
+        padding: 65px 0;
+      }
+
+      .depth-visual {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .depth {
+        grid-template-columns: 62px 1fr;
+      }
+
+      .depth-chip {
+        display: none;
+      }
+
+      .api-grid,
+      .requirements {
+        grid-template-columns: 1fr;
+      }
+
+      .install-command {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav-shell">
+    <nav class="wrap" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Mangroves home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3v10M12 7 7.5 4.5M12 9l4.8-3.2M12 13 7 20M12 13l5 7M12 13l-1 8"
+              stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+            <path d="M7.5 4.5c0-1.1.9-2 2-2M16.8 5.8c.1-1.2 1.1-2 2.2-1.9" stroke="#59c3d1"
+              stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+        </span>
+        Mangroves
+      </a>
+      <div class="nav-links">
+        <a href="#concept">Concept</a>
+        <a href="#quickstart">Quick start</a>
+        <a href="#api">API</a>
+        <a class="nav-github" href="https://github.com/1ssb/mangroves">GitHub ↗</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Data structure for PyTorch workflows</span>
+        <h1>Grow structured data flows, <span class="gradient">depth by depth.</span></h1>
+        <p class="hero-lede">
+          Mangroves is a compact Python package for organising heterogeneous values into <strong>typed hierarchical
+            layers</strong>—with dynamic attributes, filtered lookup, cross-depth grouping, and explicit tensor
+          movement to CUDA.
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="#quickstart">
+            Quick start
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a class="btn" href="https://github.com/1ssb/mangroves">
+            View source
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M14 5h5v5M19 5l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" stroke="currentColor"
+                stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+          </a>
+        </div>
+        <div class="badges" aria-label="Project badges">
+          <img src="https://img.shields.io/pypi/v/mangroves?color=63e6a8&label=PyPI" alt="PyPI version">
+          <img src="https://img.shields.io/github/stars/1ssb/mangroves?style=flat&color=59c3d1" alt="GitHub stars">
+          <img src="https://img.shields.io/badge/python-3.x-3776ab" alt="Python 3">
+          <img src="https://img.shields.io/badge/PyTorch-1.8%2B-ee4c2c" alt="PyTorch 1.8 or newer">
+          <img src="https://img.shields.io/badge/license-MIT-f0c674" alt="MIT license">
+        </div>
+      </div>
+
+      <div class="depth-visual" aria-label="Illustration of typed data organised across Mangroves depths">
+        <div class="visual-top">
+          <span>mangrove.summary()</span>
+          <span class="live-dot">structured</span>
+        </div>
+        <div class="depth-stack">
+          <div class="depth" style="--depth-color: #59c3d1">
+            <span class="depth-id">DEPTH 2</span>
+            <div class="depth-data">
+              <strong>Model outputs</strong>
+              <span>logits · embeddings</span>
+            </div>
+            <span class="depth-chip">Tensor</span>
+          </div>
+          <div class="depth" style="--depth-color: #63e6a8">
+            <span class="depth-id">DEPTH 1</span>
+            <div class="depth-data">
+              <strong>Episode state</strong>
+              <span>observations · rewards</span>
+            </div>
+            <span class="depth-chip">typed</span>
+          </div>
+          <div class="depth" style="--depth-color: #f0c674">
+            <span class="depth-id">DEPTH 0</span>
+            <div class="depth-data">
+              <strong>Flexible staging</strong>
+              <span>int · float · str · Tensor</span>
+            </div>
+            <span class="depth-chip">open</span>
+          </div>
+        </div>
+        <div class="root-system" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="concept">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Core idea</span>
+            <h2>One container.<br>Clear data strata.</h2>
+          </div>
+          <p class="section-copy">
+            A Mangrove separates data organisation from model logic. Configure the types accepted at each depth,
+            ingest named values once, then retrieve or update them naturally as attributes while the container tracks
+            type and depth metadata.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">T[]</div>
+            <h3>Typed depths</h3>
+            <p>Define allowed Python or PyTorch types per layer. Ingestion rejects unconfigured depths, disallowed
+              types, and duplicate variable names.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">m.x</div>
+            <h3>Natural access</h3>
+            <p>Read and update stored values through dynamic attributes while preserving the declared type contract.
+              Filter names or values by depth and type.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">GPU</div>
+            <h3>Explicit device movement</h3>
+            <p>Move selected tensors—or an entire depth—to CUDA when it is available, without changing how downstream
+              code accesses the stored values.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Data lifecycle</span>
+            <h2>From configuration<br>to computation.</h2>
+          </div>
+          <p class="section-copy">
+            Mangroves keeps a small, explicit lifecycle. Each operation maps to a focused method, making state
+            transitions readable in episodic training and data-acquisition code.
+          </p>
+        </div>
+        <div class="workflow">
+          <div class="workflow-step">
+            <span class="number">01</span>
+            <h3>Configure</h3>
+            <p>Declare accepted types for each depth.</p>
+          </div>
+          <div class="workflow-step">
+            <span class="number">02</span>
+            <h3>Ingest</h3>
+            <p>Add named, type-checked values.</p>
+          </div>
+          <div class="workflow-step">
+            <span class="number">03</span>
+            <h3>Organise</h3>
+            <p>Push, shift, or group across depths.</p>
+          </div>
+          <div class="workflow-step">
+            <span class="number">04</span>
+            <h3>Compute</h3>
+            <p>Move selected tensors to CUDA.</p>
+          </div>
+          <div class="workflow-step">
+            <span class="number">05</span>
+            <h3>Inspect</h3>
+            <p>Query indices and structured summaries.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quickstart">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Quick start</span>
+            <h2>A useful structure<br>in a few lines.</h2>
+          </div>
+          <p class="section-copy">
+            Create a typed episode layer, add tensors and metadata, access values as attributes, and inspect the
+            resulting structure. CUDA movement remains opt-in.
+          </p>
+        </div>
+        <div class="code-layout">
+          <div class="code-window">
+            <div class="code-bar">
+              <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span class="file-name">episode.py</span>
+              <button class="copy-btn" type="button" data-copy="quick-code">Copy</button>
+            </div>
+            <pre id="quick-code"><code><span class="tok-key">import</span> torch
+<span class="tok-key">from</span> mangroves <span class="tok-key">import</span> Mangrove
+
+episode = <span class="tok-name">Mangrove</span>()
+
+<span class="tok-comment"># Depth 1 accepts tensors and scalar rewards.</span>
+episode.config(<span class="tok-name">1</span>, [torch.Tensor, float])
+episode.add_data(
+    <span class="tok-name">1</span>,
+    torch.Tensor,
+    [<span class="tok-str">"observation"</span>],
+    [torch.randn(<span class="tok-name">3</span>, <span class="tok-name">224</span>, <span class="tok-name">224</span>)],
+)
+episode.add_data(<span class="tok-name">1</span>, float, [<span class="tok-str">"reward"</span>], [<span class="tok-name">0.75</span>])
+
+<span class="tok-key">print</span>(episode.observation.shape)
+<span class="tok-key">print</span>(episode.summary())
+
+<span class="tok-comment"># Optional on a CUDA-enabled machine:</span>
+<span class="tok-comment"># episode.tocuda(depth=1, data_type=torch.Tensor)</span></code></pre>
+          </div>
+          <div class="principles">
+            <div class="principle">
+              <span class="mark">0</span>
+              <div>
+                <h3>Flexible staging depth</h3>
+                <p>Depth 0 is preconfigured for integers, floats, strings, and tensors.</p>
+              </div>
+            </div>
+            <div class="principle">
+              <span class="mark">↕</span>
+              <div>
+                <h3>Move without rewriting</h3>
+                <p><code>push()</code> and <code>shift()</code> update placement while retaining the stored value.</p>
+              </div>
+            </div>
+            <div class="principle">
+              <span class="mark">∪</span>
+              <div>
+                <h3>Group across depths</h3>
+                <p><code>inosc()</code> records compatible depth/type pairs; <code>uproot()</code> returns their grouped
+                  values.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="api">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">API map</span>
+            <h2>Small surface.<br>Purposeful operations.</h2>
+          </div>
+          <p class="section-copy">
+            The public API stays compact enough to learn at a glance. Each method handles one part of configuration,
+            lookup, movement, grouping, or lifecycle management.
+          </p>
+        </div>
+        <div class="api-grid">
+          <article class="api-card">
+            <code>config()</code>
+            <p>Set the accepted types for a non-zero depth.</p>
+          </article>
+          <article class="api-card">
+            <code>add_data()</code>
+            <p>Ingest named values with depth and type checks.</p>
+          </article>
+          <article class="api-card">
+            <code>var()</code>
+            <p>List variable names filtered by depth or type.</p>
+          </article>
+          <article class="api-card">
+            <code>index()</code>
+            <p>Return filtered name-to-value mappings.</p>
+          </article>
+          <article class="api-card">
+            <code>push() / shift()</code>
+            <p>Move variables between compatible depths.</p>
+          </article>
+          <article class="api-card">
+            <code>tocuda()</code>
+            <p>Move matching tensor values onto a CUDA device.</p>
+          </article>
+          <article class="api-card">
+            <code>inosc() / uproot()</code>
+            <p>Record and materialise cross-depth groupings.</p>
+          </article>
+          <article class="api-card">
+            <code>summary()</code>
+            <p>Inspect configured, staging, and grouped data.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Install & status</span>
+            <h2>Available from PyPI.</h2>
+          </div>
+          <p class="section-copy">
+            Install the released package for stable use. The repository is maintained on a maintenance-only basis,
+            with compatibility and focused fixes preferred over broad feature expansion.
+          </p>
+        </div>
+        <div class="install-grid">
+          <div>
+            <div class="install-command">
+              <code>pip install mangroves</code>
+              <button class="copy-btn" type="button" data-copy-text="pip install mangroves">Copy</button>
+            </div>
+            <div class="requirements" aria-label="Requirements">
+              <div class="requirement">Python 3</div>
+              <div class="requirement">PyTorch ≥ 1.8.1</div>
+              <div class="requirement">CUDA optional</div>
+            </div>
+          </div>
+          <aside class="status-card">
+            <span class="status-line">Maintenance mode</span>
+            <h3>Stable earlier package</h3>
+            <p>Mangroves remains available for existing users and reproducible workflows. Bug reports and
+              backward-compatible fixes are welcome through GitHub Issues.</p>
+            <div class="actions">
+              <a class="btn" href="https://pypi.org/project/mangroves/">Open PyPI ↗</a>
+              <a class="btn" href="https://github.com/1ssb/mangroves/issues">Report an issue ↗</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="cite">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Citation</span>
+            <h2>Reference Mangroves.</h2>
+          </div>
+          <p class="section-copy">
+            If Mangroves supports your research code or data pipeline, cite the repository using the BibTeX entry
+            below.
+          </p>
+        </div>
+        <div class="cite-box">
+          <button class="copy-btn" type="button" data-copy="cite-code">Copy</button>
+          <pre id="cite-code"><code>@misc{Mangrove2023,
+  author       = {Subhransu S. Bhattacharjee},
+  title        = {Mangroves: Depth-based Hierarchical Data Management for PyTorch},
+  year         = {2023},
+  note         = {GitHub repository},
+  howpublished = {\url{https://github.com/1ssb/mangroves}}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <p>Built and maintained by <a href="https://1ssb.github.io/">Subhransu S. Bhattacharjee</a>.</p>
+      <div class="footer-links">
+        <a href="https://github.com/1ssb/mangroves">GitHub</a>
+        <a href="https://pypi.org/project/mangroves/">PyPI</a>
+        <a href="https://github.com/1ssb/mangroves/blob/main/LICENSE">MIT License</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll("[data-copy], [data-copy-text]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const source = button.dataset.copy
+          ? document.getElementById(button.dataset.copy)?.innerText
+          : button.dataset.copyText;
+
+        if (!source) return;
+
+        try {
+          await navigator.clipboard.writeText(source);
+          const previous = button.textContent;
+          button.textContent = "Copied";
+          window.setTimeout(() => {
+            button.textContent = previous;
+          }, 1400);
+        } catch {
+          button.textContent = "Select text";
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
